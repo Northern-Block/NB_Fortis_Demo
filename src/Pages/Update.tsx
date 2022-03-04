@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import AddFile from "./addFile"
-import SearchFile from "./SearchFile"
+import FileVault from "./file-vault/fileVault"
 import TextField from "@mui/material/TextField"
 import Grid from "@mui/material/Grid"
 import { Link } from "react-router-dom"
 import Typography from "@mui/material/Typography"
-import LeftBar from "./leftBar"
-import "../App.css"
+// import Sidebar from "../components/sidebar"
+import "../App.scss"
 
 export default function Update() {
   const [data, setData] = useState([
@@ -37,7 +37,7 @@ export default function Update() {
             >
               <img src="../../Images/Fortis.PNG" alt="fortis" />
             </div>
-            <LeftBar />
+            {/* <Sidebar /> */}
             
           </Grid>
           <Grid item xs={9}>

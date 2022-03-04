@@ -1,0 +1,169 @@
+aside {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 91;
+  background-color: $white;
+  box-shadow: 0 4px 4px rgba($black, 0.25);
+  width: 260px;
+  max-width: 100%;
+  @include transition(all 0.5s);
+  padding-top: 45px;
+
+  @include bp("sm") {
+    padding-top: 35px;
+  }
+
+  @include bp("xs") {
+    padding-top: 30px;
+    opacity: 0;
+    visibility: hidden;
+    right: -100%;
+    width: 250px;
+    left: auto;
+    top: 71px;
+  }
+
+  .logo-desktop {
+    text-align: center;
+    display: block;
+    padding-bottom: 88px;
+
+    @include bp("sm") {
+      padding-bottom: 35px;
+    }
+
+    @include bp("xs") {
+      display: none;
+    }
+  }
+
+  .sidebar-menu-main {
+    @include flexbox();
+    @include flex-direction(column);
+    height: 100%;
+    max-height: calc(100vh - 64px);
+
+    .menu-block {
+      li {
+
+        a {
+          padding: 15.5px 52px;
+          width: 100%;
+          color: $greyDark;
+
+          @include bp("sm") {
+            padding: 10px 52px;
+          }
+
+          @include bp("xs") {
+            padding: 10px 25px;
+          }
+
+          &:not(.active) {
+            &:hover {
+              color: $blueMain;
+            }
+          }
+
+          &.active {
+            background-color: $blueMain;
+            color: $white;
+          }
+        }
+      }
+    }
+
+    .mobile-user-menu {
+      display: none;
+
+      @include bp('xs') {
+        display: block;
+      }
+
+      .MuiAccordion-rounded {
+        @include border-radius(0);
+        box-shadow: none;
+
+        .MuiAccordionSummary-root {
+          padding: 0 25px;
+          min-height: auto;
+
+          .MuiAccordionSummary-content {
+            margin: 0;
+
+            .user-detail {
+              @include flexbox();
+              @include align-items(center);
+
+              img {
+                width: 25px;
+                height: 25px;
+                @include border-radius(50%)
+              }
+
+              span {
+                color: $blueMain;
+                font-size: 14px;
+                font-weight: 500;
+                padding-left: 15px;
+              }
+            }
+          }
+        }
+
+        .MuiAccordionDetails-root {
+          padding: 15px 25px;
+          background-color: $silverLight;
+
+          .mobile-menu {
+            li {
+              +li {
+                margin-top: 10px;
+              }
+
+              a {
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .vertex-logo {
+      margin: auto 0;
+      text-align: center;
+      color: $blueMain;
+
+      p {
+        font-weight: 300;
+      }
+    }
+  }
+}
+
+
+// toggle-menu css
+.menu-open {
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 71px;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .3);
+    z-index: 9;
+  }
+
+  aside {
+    opacity: 1;
+    visibility: visible;
+    right: 0;
+  }
+}

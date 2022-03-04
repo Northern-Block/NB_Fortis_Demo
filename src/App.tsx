@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './App.scss';
 import Routings from './routings/routings';
 function App() {
   return (

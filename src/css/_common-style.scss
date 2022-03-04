@@ -1,0 +1,339 @@
+@charset "utf-8";
+
+/*
+------------------------------------------------------------
+Project Name : Fortis;
+------------------------------------------------------------
+*/
+
+/* Reset 
+--------------------------------------------------------------------------------------------------------*/
+
+/* 
+http://meyerweb.com/eric/tools/css/reset/
+v2.0 | 20110126
+License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  @include vertical-align(baseline);
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* General 
+--------------------------------------------------------------------------------------------------------*/
+* {
+  outline: none !important;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+body {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 18px;
+  font-family: "Roboto", sans-serif;
+  -ms-overflow-style: scrollbar;
+  -webkit-font-smoothing: subpixel-antialiased;
+  color: $blackPrimary;
+  background-color: $silverLight;
+}
+
+.wrapper {
+  min-height: calc(100vh - 75px);
+}
+
+.main-content {
+  padding: 80px 30px 140px 260px;
+
+  @include bp('xs') {
+    padding: 20px 15px;
+  }
+}
+
+// vertical scroll css
+.track-vertical {
+  background-color: $greyLightSecondary !important;
+  width: 15px !important;
+  @include border-radius(0);
+  top: 0;
+  bottom: 0;
+  right: 0;
+
+  > div {
+    background-color: $blueMain !important;
+  }
+}
+
+a {
+  text-decoration: none;
+  @include inline-block();
+  @include transition(all 0.3s);
+  @include vertical-align(middle);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  color: $blueMain;
+
+  @include bp("xs") {
+    font-size: 14px;
+  }
+}
+
+a:hover {
+  color: $lightBlue;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2em;
+  margin: 0;
+}
+
+h1 span,
+h2 span,
+h3 span,
+h4 span,
+h5 span,
+h6 span {
+  display: block;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 500;
+  color: $blueMain;
+
+  &.h1 {
+    font-size: 28px;
+    font-weight: 500;
+    color: $blueMain;
+
+    @include bp('sm') {
+      font-size: 22px;
+    }
+  }
+
+  @include bp('sm') {
+    font-size: 22px;
+  }
+}
+
+h2 {
+  font-size: 19px;
+  font-weight: 500;
+  color: $blueMain;
+
+  &.h2 {
+    font-size: 19px;
+    font-weight: 500;
+    color: $blueMain;
+  }
+}
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: $greyDark;
+  &.h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: $greyDark;
+  }
+}
+h4 {
+    font-size: 13px;
+    font-weight: 500;
+    color: $greyDark;
+    
+    &.h4 {
+        font-size: 13px;
+        font-weight: 500;
+        color: $greyDark;
+      }
+}
+
+h5 {}
+
+h6 {}
+
+p {
+  margin: 0;
+  font-weight: 500;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+em {
+  @include inline-block();
+  line-height: 0;
+  font-style: normal;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+::-webkit-input-placeholder {
+}
+
+::-moz-placeholder {
+}
+
+:-ms-input-placeholder {
+}
+
+:-moz-placeholder {
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+select:-moz-focusring {
+  color: transparent;
+}
+
+option:not(:checked) {
+}

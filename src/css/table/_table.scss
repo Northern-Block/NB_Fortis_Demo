@@ -1,0 +1,96 @@
+.table-wrapper {
+    .MuiTableContainer-root {
+        box-shadow: none;
+        @include border-radius(0);
+        color: $blackPrimary;
+
+        .MuiTable-root {
+            white-space: nowrap;
+
+            .MuiTableHead-root {
+                .MuiTableRow-head {
+                    .MuiTableCell-head {
+                        font-size: 13px;
+                        font-weight: 500;
+                        color: $blackPrimary;
+                        font-family: 'Roboto', sans-serif;
+                        border-bottom: 0.5px solid $greyLight;
+                        padding: 13px 20px;
+                        @include vertical-align(middle);
+
+                        &:first-child {
+                            padding-left: 73px;
+
+                            @include bp('sm') {
+                                padding-left: 30px;
+                            }
+
+                            @include bp('xs') {
+                                padding-left: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .MuiTableBody-root {
+                .MuiTableRow-root {
+                    .MuiTableCell-body {
+                        font-size: 13px;
+                        font-weight: 300;
+                        color: $blackPrimary;
+                        border-bottom: 0.5px solid $greyLight;
+                        font-family: 'Roboto', sans-serif;
+                        padding: 13px 20px;
+                        @include vertical-align(middle);
+
+                        &:first-child {
+                            padding-left: 73px;
+
+                            @include bp('sm') {
+                                padding-left: 30px;
+                            }
+
+                            @include bp('xs') {
+                                padding-left: 20px;
+                            }
+                        }
+
+                        .table-data {
+                            @include flexbox();
+                            @include align-items(center);
+                            cursor: pointer;
+
+                            &.has-no-cursor {
+                                cursor: default;
+                            }
+
+                            em {
+                                min-width: 20px;
+                                min-height: 20px;
+                                margin-right: 12px;
+                            }
+                        }
+
+                        .description-message {
+                            width: 426px;
+                            max-width: 100%;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            font-weight: 300;
+
+                            @include bp('sm') {
+                                width: 300px;
+                            }
+
+                            @include bp('xs') {
+                                width: 200px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

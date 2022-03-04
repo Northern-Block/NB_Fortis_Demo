@@ -1,0 +1,15 @@
+$breakpoints: ("xxxs": 359px, "xxs": 575px, "xs": 767px, "sm": 991px, "xmd": 1024px, "md": 1199px, "lg": 1366px, );
+
+@mixin bp($width, $type: max) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if $type==max {
+      $width: $width;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}

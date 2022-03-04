@@ -1,0 +1,161 @@
+@import "../../App.scss";
+
+.main-content {
+  &.file-vault {
+    padding: 180px 0 0 260px;
+
+    @include bp('xs') {
+      padding: 232px 0 0 0;
+    }
+
+    .file-search {
+      @include flexbox();
+      @include justify-content(space-between);
+      @include align-items(center);
+      background-color: $white;
+      box-shadow: 0 4px 4px rgba($black, 0.05);
+      padding: 12px 50px;
+      position: fixed;
+      width: calc(100% - 260px);
+      left: 260px;
+      top: 80px;
+      z-index: 7;
+
+      @include bp('md') {
+        padding: 12px 30px;
+      }
+
+      @include bp('sm') {
+        @include flex-direction(column);
+        @include align-items(flex-start);
+        padding: 12px 15px;
+      }
+
+      @include bp('xs') {
+        padding: 15px;
+        left: 0;
+        width: 100%;
+        top: 71px;
+      }
+
+      .search-left {
+
+        @include bp('sm') {
+          width: 100%;
+          margin-bottom: 15px;
+        }
+
+        p {
+          color: $blueMain;
+          margin-bottom: 10px;
+        }
+
+        .MuiFormControl-fullWidth {
+          width: 320px;
+          max-width: 100%;
+
+          @include bp('sm') {
+            width: 100%;
+          }
+
+          .MuiInputLabel-filled {
+            @include transform(translate(12px, 15px) scale(1));
+            font-size: 13px;
+            font-weight: 400;
+            color: $blackPrimary;
+
+            &.MuiInputLabel-shrink {
+              @include transform(translate(12px, 1px) scale(0.5));
+              color: $blueMain;
+            }
+          }
+
+          .MuiFilledInput-root {
+            background-color: $greyLightPrimary;
+            @include border-radius(2px);
+
+            &.MuiFilledInput-underline {
+
+              &:before,
+              &:after {
+                border: 0;
+              }
+            }
+
+            .MuiFilledInput-input {
+              padding: 12px 12px;
+            }
+          }
+
+          em {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .search-right {
+        
+        @include bp('sm') {
+          width: 100%;
+          text-align: center;
+        }
+
+        .pagination-wrapper {
+          @include flexbox();
+          @include align-items(center);
+          margin-top: 10px;
+
+          @include bp('sm') {
+            @include justify-content(center);
+          }
+
+          p {
+            color: $black;
+            font-weight: 300;
+            font-size: 13px;
+            margin-right: 41px;
+
+            @include bp('xs') {
+              margin-right: 15px;
+            }
+          }
+
+          .MuiPaginationItem-root {
+            display: none;
+
+            &.MuiPaginationItem-previousNext {
+              min-width: 30px;
+              height: 30px;
+              display: block;
+              opacity: 1;
+  
+              svg {
+                width: 30px;
+                height: 30px;
+                fill: $black;
+              }
+            }
+          }
+        }
+      }
+
+      .MuiButton-outlined {
+        input {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          height: 100%;
+          width: 100%;
+          opacity: 0;
+        }
+
+        em {
+          margin-left: 11px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

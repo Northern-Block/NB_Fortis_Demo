@@ -2,37 +2,10 @@ import Grid from "@mui/material/Grid"
 import Button from "@mui/material/Button"
 import TextField from "@mui/material/TextField"
 
-import "antd/dist/antd.css"
-import { Upload, message } from "antd"
-import { InboxOutlined } from "@ant-design/icons"
-
-import LeftBar from "./leftBar"
-import "../App.css"
-
-const { Dragger } = Upload
+// import Sidebar from "../components/sidebar"
+import "../App.scss"
 
 const AddFile = () => {
-  const props = {
-    name: "file",
-    multiple: true,
-    action: "https://jsonplaceholder.typicode.com/posts/",
-
-    onChange(info: any) {
-      const { status } = info.file
-      console.log(status, "status")
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList)
-      }
-      if (status === "done") {
-        message.success(`${info.file.name} file uploaded successfully.`)
-      } else if (status === "error") {
-        message.error(`${info.file.name} file upload failed.`)
-      }
-    },
-    onDrop(e: any) {
-      console.log("Dropped files", e.dataTransfer.files)
-    }
-  }
   return (
     <div>
       <Grid container justifyContent="space-around">
@@ -47,20 +20,12 @@ const AddFile = () => {
           >
             <img src="../../Images/Fortis.PNG" alt="fortis" />
           </div>
-          <LeftBar />
+          {/* <Sidebar /> */}
         </Grid>
         <Grid item xs={9}>
           <div
             style={{ width: "50%", paddingTop: "11rem", paddingLeft: "5rem" }}
           >
-            <Dragger {...props} maxCount={1}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag file to this area to upload
-              </p>
-            </Dragger>
           </div>
 
           <div style={{ paddingTop: "20px" }}>

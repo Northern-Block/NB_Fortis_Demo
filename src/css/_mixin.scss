@@ -1,0 +1,91 @@
+/*------------Mixin Styling -----------*/
+
+// vertically center mixin
+@mixin abscenter($top, $left) {
+    content: "";
+    position: absolute;
+    top: $top;
+    left: $left;
+    transform: translate(-50%, -50%);
+}
+
+// Flexbox display
+@mixin flexbox() {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+@mixin inline-flex() {
+    display: -webkit-inline-box;
+    display: -moz-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
+@mixin flex-wrap($wrap) {
+    -webkit-flex-wrap: $wrap;
+    -moz-flex-wrap: $wrap;
+    -ms-flex-wrap: $wrap;
+    flex-wrap: $wrap;
+}
+
+@mixin flex-direction($direction) {
+    -webkit-flex-direction: $direction;
+    -moz-flex-direction: $direction;
+    -ms-flex-direction: $direction;
+    flex-direction: $direction;
+}
+
+@mixin justify-content($justify) {
+    -webkit-justify-content: $justify;
+    -moz-justify-content: $justify;
+    -ms-justify-content: $justify;
+    justify-content: $justify;
+    -ms-flex-pack: $justify;
+}
+
+@mixin align-items($align) {
+    -webkit-align-items: $align;
+    -moz-align-items: $align;
+    -ms-align-items: $align;
+    -ms-flex-align: $align;
+    align-items: $align;
+}
+
+// transition mixin
+@mixin transition($transition) {
+    -webkit-transition: $transition;
+    -moz-transition: $transition;
+    -ms-transition: $transition;
+    transition: $transition;
+}
+
+// transform mixin
+@mixin transform($transform) {
+    -webkit-transform: $transform;
+    -moz-transform: $transform;
+    -ms-transform: $transform;
+    transform: $transform;
+}
+
+// border radius mixin
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius !important;
+    -moz-border-radius: $radius !important;
+    -ms-border-radius: $radius !important;
+    border-radius: $radius !important;
+}
+
+// inline block mixin
+@mixin inline-block() {
+    display: inline-block;
+}
+
+// vertical align mixin
+@mixin vertical-align($align) {
+    vertical-align: $align;
+}
