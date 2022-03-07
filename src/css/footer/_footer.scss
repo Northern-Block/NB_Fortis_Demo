@@ -9,13 +9,10 @@ footer {
     padding: 15px 30px;
   }
 
-  @include bp('sm') {
-    padding: 15px;
-  }
-
-  @include bp('xs') {
+  @include bp('xmd') {
     margin-left: 0;
     width: 100%;
+    padding: 15px;
   }
 
   .footer-outer {

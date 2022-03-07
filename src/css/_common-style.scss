@@ -176,7 +176,7 @@ body {
 .main-content {
   padding: 80px 30px 140px 260px;
 
-  @include bp('xs') {
+  @include bp('xmd') {
     padding: 20px 15px;
   }
 }
@@ -259,12 +259,21 @@ h2 {
   font-weight: 500;
   color: $blueMain;
 
+  @include bp('xs') {
+    font-size: 16px;
+  }
+
   &.h2 {
     font-size: 19px;
     font-weight: 500;
-    color: $blueMain;
+    color: $blackSecondary;
+
+    @include bp('xs') {
+      font-size: 16px;
+    }
   }
 }
+
 h3 {
   font-size: 16px;
   font-weight: 500;
@@ -275,6 +284,7 @@ h3 {
     color: $greyDark;
   }
 }
+
 h4 {
     font-size: 13px;
     font-weight: 500;
@@ -287,7 +297,30 @@ h4 {
       }
 }
 
-h5 {}
+h5 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: $black;
+
+  @include bp('xs') {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+.h5 {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.32px;
+  color: $black;
+  line-height: 28px;
+
+  @include bp('xs') {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
 
 h6 {}
 

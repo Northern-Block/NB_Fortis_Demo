@@ -10,12 +10,9 @@ aside {
   max-width: 100%;
   @include transition(all 0.5s);
   padding-top: 45px;
+  overflow: hidden auto;
 
-  @include bp("sm") {
-    padding-top: 35px;
-  }
-
-  @include bp("xs") {
+  @include bp("xmd") {
     padding-top: 30px;
     opacity: 0;
     visibility: hidden;
@@ -30,11 +27,7 @@ aside {
     display: block;
     padding-bottom: 88px;
 
-    @include bp("sm") {
-      padding-bottom: 35px;
-    }
-
-    @include bp("xs") {
+    @include bp("xmd") {
       display: none;
     }
   }
@@ -42,8 +35,13 @@ aside {
   .sidebar-menu-main {
     @include flexbox();
     @include flex-direction(column);
+    @include justify-content(space-between);
     height: 100%;
-    max-height: calc(100vh - 64px);
+    max-height: calc(100vh - 208px);
+
+    @include bp("xmd") {
+      max-height: calc(100vh - 30px);
+    }
 
     .menu-block {
       li {
@@ -52,10 +50,6 @@ aside {
           padding: 15.5px 52px;
           width: 100%;
           color: $greyDark;
-
-          @include bp("sm") {
-            padding: 10px 52px;
-          }
 
           @include bp("xs") {
             padding: 10px 25px;
@@ -78,7 +72,7 @@ aside {
     .mobile-user-menu {
       display: none;
 
-      @include bp('xs') {
+      @include bp('xmd') {
         display: block;
       }
 
@@ -133,7 +127,7 @@ aside {
     }
 
     .vertex-logo {
-      margin: auto 0;
+      margin-top: 40px;
       text-align: center;
       color: $blueMain;
 

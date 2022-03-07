@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import AddFile from "./addFile"
-import FileVault from "./file-vault/fileVault"
+// import AddFile from "./addFile"
+// import FileVault from "./file-vault/fileVault"
 import TextField from "@mui/material/TextField"
 import Grid from "@mui/material/Grid"
 import { Link } from "react-router-dom"

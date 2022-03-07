@@ -11,11 +11,7 @@ header {
     padding: 16.5px 30px;
   }
 
-  @include bp('sm') {
-    padding: 16.5px 15px;
-  }
-
-  @include bp("xs") {
+  @include bp("xmd") {
     left: 0;
     width: 100%;
     padding: 15px;
@@ -36,7 +32,7 @@ header {
         width: 100px;
         max-width: 100%;
 
-        @include bp("xs") {
+        @include bp("xmd") {
           display: block;
         }
       }
@@ -46,7 +42,7 @@ header {
           @include inline-block();
         }
 
-        @include bp('xs') {
+        @include bp('xmd') {
           display: none;
         }
       }
@@ -64,7 +60,7 @@ header {
         height: 17px;
         display: none;
 
-        @include bp("xs") {
+        @include bp("xmd") {
           display: block;
         }
 
@@ -91,6 +87,38 @@ header {
         }
       }
 
+      .mobile-user-detail{
+        margin-right: 20px;
+        min-width: 25px;
+        min-height: 25px;
+        display: none;
+        @include align-items(center);
+        cursor: pointer;
+
+        @include bp('xmd') {
+          @include flexbox();
+        }
+
+        img {
+          width: 25px;
+          height: 25px;
+          @include border-radius(50%);
+        }
+
+        span {
+          color: $blueMain;
+          font-size: 14px;
+          font-weight: 500;
+          padding-left: 8px;
+          display: none;
+          line-height: 14px;
+
+          @include bp('xmd') {
+            display: block;
+          }
+        }
+      }
+
       .user-detail {
         margin-right: 40px;
         min-width: 47px;
@@ -98,15 +126,6 @@ header {
         @include border-radius(50%);
 
         @include bp('xmd') {
-          margin-right: 30px;
-        }
-
-        @include bp('sm') {
-          margin-right: 25px;
-        }
-
-
-        @include bp('xs') {
           display: none;
         }
 
@@ -120,7 +139,7 @@ header {
       .header-menu {
         @include flexbox();
 
-        @include bp('xs') {
+        @include bp('xmd') {
           display: none;
         }
 
@@ -132,10 +151,6 @@ header {
             @include bp('xmd') {
               margin-left: 40px;
             }
-
-            @include bp('sm') {
-              margin-left: 25px;
-            }
           }
 
           a {
@@ -144,6 +159,25 @@ header {
             letter-spacing: -0.32px;
           }
         }
+      }
+    }
+  }
+}
+
+.MuiMenu-paper {
+  .MuiMenu-list {
+    width: 140px;
+    padding: 0;
+
+    li {
+      padding: 10px 16px;
+
+      + li {
+        border-top: 1px solid $greyLight;
+      }
+
+      a {
+        font-weight: 500;
       }
     }
   }

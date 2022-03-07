@@ -1,0 +1,64 @@
+@import "../../App.scss";
+
+.wrapper {
+    &.login-page {
+        min-height: 100vh;
+
+        .login-wrapper {
+            @include flexbox();
+            @include align-items(center);
+            @include justify-content(center);
+            min-height: 100vh;
+
+            @include bp('sm') {
+                min-height: auto;
+                padding: 20px;
+            }
+
+            .login-inner {
+                background-color: $white;
+                box-shadow: 0 4px 4px rgba($black, 0.15);
+                @include border-radius(4px);
+                width: 505px;
+                max-width: 100%;
+                margin: 0 auto;
+                padding: 60px 75px 108px;
+                text-align: center;
+
+                @include bp('xs') {
+                    padding: 30px 15px;
+                }
+
+                @include bp('xxs') {
+                    width: 100%;
+                }
+
+                .h5 {
+                    margin: 8px 0 22px;
+
+                    @include bp('xs') {
+                        margin: 8px 0;
+                    }
+                }
+
+                .code-scan {
+                    min-width: 300px;
+                    min-height: 300px;
+
+                    @include bp('xxs') {
+                        min-width: 100%;
+                        min-height: auto;
+                    }
+                }
+                .bottom-logo {
+                    text-align: center;
+                    
+                    p {
+                        color: $greyLightSecondary;
+                        font-weight: 300;
+                    }
+                }
+            }
+        }
+    }
+}

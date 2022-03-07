@@ -4,8 +4,12 @@
   &.file-vault {
     padding: 180px 0 0 260px;
 
+    @include bp('xmd') {
+      padding: 180px 0 0 0;
+    }
+
     @include bp('xs') {
-      padding: 232px 0 0 0;
+      padding: 270px 0 0 0;
     }
 
     .file-search {
@@ -25,13 +29,13 @@
         padding: 12px 30px;
       }
 
-      @include bp('sm') {
+      @include bp('xs') {
         @include flex-direction(column);
         @include align-items(flex-start);
         padding: 12px 15px;
       }
 
-      @include bp('xs') {
+      @include bp('xmd') {
         padding: 15px;
         left: 0;
         width: 100%;
@@ -40,7 +44,7 @@
 
       .search-left {
 
-        @include bp('sm') {
+        @include bp('xs') {
           width: 100%;
           margin-bottom: 15px;
         }
@@ -54,7 +58,7 @@
           width: 320px;
           max-width: 100%;
 
-          @include bp('sm') {
+          @include bp('xs') {
             width: 100%;
           }
 
@@ -65,8 +69,7 @@
             color: $blackPrimary;
 
             &.MuiInputLabel-shrink {
-              @include transform(translate(12px, 1px) scale(0.5));
-              color: $blueMain;
+              display: none;
             }
           }
 
@@ -95,7 +98,7 @@
 
       .search-right {
         
-        @include bp('sm') {
+        @include bp('xs') {
           width: 100%;
           text-align: center;
         }
@@ -103,9 +106,10 @@
         .pagination-wrapper {
           @include flexbox();
           @include align-items(center);
+          @include justify-content(flex-end);
           margin-top: 10px;
 
-          @include bp('sm') {
+          @include bp('xs') {
             @include justify-content(center);
           }
 
@@ -140,17 +144,6 @@
       }
 
       .MuiButton-outlined {
-        input {
-          position: absolute;
-          left: 0;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          height: 100%;
-          width: 100%;
-          opacity: 0;
-        }
-
         em {
           margin-left: 11px;
           cursor: pointer;

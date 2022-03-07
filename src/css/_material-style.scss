@@ -8,3 +8,54 @@
     text-transform: capitalize !important;
     font-family: 'Roboto', sans-serif !important;
 }
+
+.MuiButton-containedPrimary {
+    background-color: $blueMain !important;
+    box-shadow: 0 4px 4px rgba($black, 0.15) !important;
+    @include border-radius(2px);
+    letter-spacing: 0 !important;
+    line-height: 13px !important;
+    padding: 11.5px 30px !important;
+    font-weight: 700 !important;
+    font-family: 'Roboto', sans-serif !important;
+
+    &.Mui-disabled {
+        background-color: $greyLight !important;
+        color: $white !important;
+    }
+
+    &:hover {
+        background-color: $lightBlue !important;
+        box-shadow: 0 2px 4px -1px rgba($black, 0.2), 0 4px 5px 0 rgba($black, 0.14), 0 1px 10px 0 rgba($black, 0.12) !important;
+    }
+}
+
+.MuiButton-containedSecondary {
+    padding: 11.5px 30px !important;
+    font-family: 'Roboto', sans-serif !important;
+    box-shadow: 0 4px 4px rgba($black, 0.15) !important;
+    @include border-radius(2px);
+    letter-spacing: 0 !important;
+    line-height: 13px !important;
+    font-weight: 700 !important;
+    line-height: 13px !important;
+    background-color: $greyLight !important;
+    text-transform: capitalize !important;
+
+    &:hover {
+        background-color: $greyDark !important;
+        box-shadow: 0 2px 4px -1px rgba($black, 0.2), 0 4px 5px 0 rgba($black, 0.14), 0 1px 10px 0 rgba($black, 0.12) !important;
+    }
+}
+
+// progress bar css
+.MuiLinearProgress-colorPrimary {
+    width: 100%;
+    height: 5px !important;
+    @include border-radius(8px);
+    background-color: $greyLightSecondary !important;
+
+    .MuiLinearProgress-barColorPrimary {
+        background-color: $blueMain;
+    }
+}

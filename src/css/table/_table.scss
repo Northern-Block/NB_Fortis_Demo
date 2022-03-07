@@ -70,6 +70,14 @@
                                 min-height: 20px;
                                 margin-right: 12px;
                             }
+
+                            span {
+                                @include transition(all 0.5s);
+
+                                &:hover {
+                                    color: $black;
+                                }
+                            }
                         }
 
                         .description-message {
