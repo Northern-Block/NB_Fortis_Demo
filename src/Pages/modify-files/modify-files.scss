@@ -1,0 +1,240 @@
+@import "../../App.scss";
+
+.main-content {
+    &.modify-files {
+        padding: 180px 30px 140px 260px;
+
+        .file-box-outer {
+            background-color: $white;
+            width: 947px;
+            max-width: 100%;
+            margin: 52px auto;
+            box-shadow: 0 4px 4px rgba($black, 0.15);
+            @include border-radius(4px);
+            padding: 67px 47px;
+
+            @include bp('lg') {
+                width: 850px;
+            }
+
+            @include bp('md') {
+                width: 700px;
+                padding: 50px 30px;
+                margin: 30px auto;
+            }
+
+            @include bp('xs') {
+                width: 100%;
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+
+            .file-box-inner {
+                border: 1px dashed $blueMain;
+                @include border-radius(4px);
+                padding: 103px 15px;
+                text-align: center;
+                // display: none;
+
+                @include bp('sm') {
+                    padding: 50px 15px;
+                }
+
+                @include bp('xs') {
+                    padding: 20px 15px;
+                }
+
+                h2 {
+                    margin-bottom: 15px;
+                }
+
+                .MuiButton-containedPrimary {
+                    background-color: $white !important;
+                    padding: 6.5px 30px !important;
+                    font-size: 13px;
+                    font-weight: 500 !important;
+                    color: $blackSecondary;
+
+                    .MuiButton-endIcon {
+                        margin-left: 41px;
+                        padding: 0;
+                    }
+
+                    input {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        width: 100%;
+                        height: 100%;
+                        opacity: 0;
+                    }
+                }
+
+                span {
+                    display: block;
+                    padding-top: 15px;
+                    color: $blackSecondary;
+                }
+            }
+
+            .file-preview-box {
+                width: 495px;
+                max-width: 100%;
+                margin: 0 auto;
+                @include border-radius(24px);
+                border: 1px solid $greyLight;
+                padding: 50px 30px;
+                position: relative;
+                display: none;
+
+                @include bp('xs') {
+                    padding: 20px 15px;
+                    @include border-radius(4px);
+                }
+
+                @include bp('xxs') {
+                    width: 100%;
+                }
+
+                em {
+                    cursor: pointer;
+                    position: absolute;
+                    right: -20px;
+                    top: -20px;
+                }
+            }
+
+            .preview-show-main{
+                width: 500px;
+                margin: 0 auto;
+                max-width: 100%;
+                display: none;
+
+                @include bp('xxs') {
+                    width: 100%;
+                }
+
+                .preview-show-outer {
+                    @include flexbox();
+                    @include flex-wrap(wrap);
+                    margin: 0 -23px;
+    
+                    @include bp('sm') {
+                        margin: 0;
+                    }
+    
+                    .preview-box-show {
+                        width: 50%;
+                        padding: 0 23px;
+                        text-align: center;
+    
+                        @include bp('sm') {
+                            width: 100%;
+                            padding: 0;
+    
+                            &:last-child {
+                                padding-top: 20px;
+                            }
+                        }
+    
+                        .preview-box-main {
+                            @include border-radius(24px);
+                            border: 1px solid $greyLight;
+                            padding: 50px 30px;
+                            cursor: pointer;
+
+                            @include bp('xs') {
+                                padding: 20px 15px;
+                                @include border-radius(4px);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .comment-box {
+                margin-top: 13px;
+                display: none;
+
+                .comment-header {
+                    @include flexbox();
+                    @include justify-content(space-between);
+                    @include align-items(center);
+                    margin-bottom: 18px;
+
+                    .h2 {
+                        font-size: 18px;
+                        letter-spacing: -0.32px;
+                    }
+
+                    .MuiButton-textPrimary {
+                        padding: 0;
+                    }
+                }
+
+                .comment-body {
+                    width: 700px;
+                    max-width: 100%;
+                    margin: 0 auto;
+
+                    @include bp('xs') {
+                        width: 100%;
+                        margin: 0;
+                    }
+                    
+                    p {
+                        margin-bottom: 20px;
+                        font-size: 13px;
+                        font-weight: 300;
+                        color: $greyExtraLight;
+                        line-height: 15px;
+
+                        @include bp('xs') {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+
+            .step-outer {
+                @include flexbox();
+                @include justify-content(space-between);
+                @include align-items(center);
+                margin-top: 69px;
+
+                @include bp('sm') {
+                    margin-top: 40px;
+                }
+
+                @include bp('xs') {
+                    margin-top: 20px;
+                }
+
+                ul {
+                    @include flexbox();
+                    @include justify-content(center);
+                    width: calc(100% - 92px);
+                    
+                    li {
+                        @include border-radius(50%);
+                        width: 8px;
+                        height: 8px;
+                        min-width: 8px;
+                        min-height: 8px;
+                        background-color: $greyLightSecondary;
+
+                        &.active {
+                            background-color: $blueMain;
+                        }
+
+                        + li {
+                            margin-left: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

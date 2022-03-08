@@ -1,11 +1,10 @@
 import { BrowserRouter , Switch , Route } from 'react-router-dom';
-import Login from '../Pages/login-component/Login';
-import LoginVerification from '../Pages/login-verification/LoginVerify';
-import AddFile  from '../Pages/addFile';
-import FileVault from '../Pages/file-vault/fileVault';
-import Update from '../Pages/Update';
-import Modify from '../Pages/Modify';
-
+import Login from 'Pages/login-component/Login';
+import LoginVerification from 'Pages/login-verification/LoginVerify';
+import AddFile  from 'Pages/add-file/addFile';
+import FileVault from 'Pages/file-vault/fileVault';
+import Update from 'Pages/update-files/Update';
+import Modify from 'Pages/modify-files/Modify';
 
 const Routings = () => {
 	return(
@@ -27,7 +26,7 @@ const Routings = () => {
 					<AddFile/>
 				</Route>
 				
-				<Route exact path={'/update'}>
+				<Route exact path={'/user-activity'}>
 					<Update/>
 				</Route>
 				<Route exact path={'/modify'}>

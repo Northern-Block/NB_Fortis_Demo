@@ -1,4 +1,13 @@
 .table-wrapper {
+    h2 {
+        padding-left: 35px;
+        margin-bottom: 10px;
+    }
+
+    + .table-wrapper {
+        margin-top: 34px;
+    }
+
     .MuiTableContainer-root {
         box-shadow: none;
         @include border-radius(0);

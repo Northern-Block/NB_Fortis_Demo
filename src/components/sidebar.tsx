@@ -36,7 +36,7 @@ export default function Sidebar() {
 
             <li>
               <Link
-                to={`${process.env.PUBLIC_URL}/search`}
+                to={`${process.env.PUBLIC_URL}/user-activity`}
                 title="User Activity"
               >
                 User Activity
@@ -44,7 +44,7 @@ export default function Sidebar() {
             </li>
           </ul>
 
-          <Link to="/file-vault" className="vertex-logo" title="veritx">
+          <Link to="/file-vault" className="vertex-logo" title="Veritx">
             <p>Powered by:</p>
             <img src={veritx_logo} alt="veritx-logo" />
           </Link>

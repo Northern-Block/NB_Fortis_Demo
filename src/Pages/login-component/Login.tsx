@@ -19,7 +19,7 @@ export default function Login() {
               <img src={code_scan} alt="scan" />
             </em>
             <p className="h5">Scan QR code to login</p>
-            <Link to="/" className="bottom-logo" title="veritx">
+            <Link to="/" className="bottom-logo" title="Veritx">
               <p>Powered by:</p>
               <img src={veritx_logo} alt="veritx-logo" />
             </Link>

@@ -22,7 +22,7 @@
                 width: 505px;
                 max-width: 100%;
                 margin: 0 auto;
-                padding: 60px 75px 108px;
+                padding: 60px 75px;
                 text-align: center;
 
                 @include bp('xs') {
@@ -37,7 +37,7 @@
                     margin: 8px 0 22px;
 
                     @include bp('xs') {
-                        margin: 8px 0;
+                        margin: 20px 0;
                     }
                 }
 
@@ -52,10 +52,28 @@
                 }
                 .bottom-logo {
                     text-align: center;
+                    margin-top: 86px;
+
+                    @include bp('sm') {
+                        margin-top: 40px;
+                    }
+
+                    @include bp('xs') {
+                        margin-top: 20px;
+                    }
                     
                     p {
-                        color: $greyLightSecondary;
+                        color: $blueMain;
                         font-weight: 300;
+                        margin-left: -48px;
+
+                        @include bp('sm') {
+                            margin-left: -20px;
+                        }
+
+                        @include bp('xs') {
+                            margin-left: 0;
+                        }
                     }
                 }
             }

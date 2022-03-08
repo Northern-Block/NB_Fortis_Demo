@@ -13,33 +13,12 @@
     }
 
     .file-search {
-      @include flexbox();
       @include justify-content(space-between);
       @include align-items(center);
-      background-color: $white;
-      box-shadow: 0 4px 4px rgba($black, 0.05);
-      padding: 12px 50px;
-      position: fixed;
-      width: calc(100% - 260px);
-      left: 260px;
-      top: 80px;
-      z-index: 7;
-
-      @include bp('md') {
-        padding: 12px 30px;
-      }
 
       @include bp('xs') {
         @include flex-direction(column);
         @include align-items(flex-start);
-        padding: 12px 15px;
-      }
-
-      @include bp('xmd') {
-        padding: 15px;
-        left: 0;
-        width: 100%;
-        top: 71px;
       }
 
       .search-left {
@@ -140,13 +119,6 @@
               }
             }
           }
-        }
-      }
-
-      .MuiButton-outlined {
-        em {
-          margin-left: 11px;
-          cursor: pointer;
         }
       }
     }

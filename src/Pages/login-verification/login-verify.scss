@@ -22,7 +22,7 @@
                 width: 505px;
                 max-width: 100%;
                 margin: 0 auto;
-                padding: 60px 75px 108px;
+                padding: 60px 75px;
                 text-align: center;
 
                 @include bp('xs') {
@@ -34,30 +34,63 @@
                 }
 
                 .h5 {
-                    margin: 8px 0 22px;
+                    margin: 8px 0 39px;
 
                     @include bp('xs') {
-                        margin: 8px 0;
+                        margin: 20px 0;
+                    }
+
+                    &.has-font-capital {
+                        text-transform: uppercase;
                     }
                 }
 
                 .verify-icon {
                     min-width: 54px;
                     min-height: 54px;
-                    margin: 35px 0;
+                    margin: -5px 0 27px;
+
+                    @include bp('xs') {
+                        margin: 15px 0;
+                        min-width: 30px;
+                        min-height: 30px;
+                    }
+                }
+
+                .MuiLinearProgress-colorPrimary {
+                    margin: -3px auto 0;
+                    width: 240px;
+                    max-width: 100%;
+
+                    @include bp('xxs') {
+                        margin: 0 auto;
+                    }
                 }
 
                 .bottom-logo {
                     text-align: center;
-                    margin-top: 40px;
+                    margin-top: 86px;
+
+                    @include bp('sm') {
+                        margin-top: 40px;
+                    }
 
                     @include bp('xs') {
                         margin-top: 20px;
                     }
                     
                     p {
-                        color: $greyLightSecondary;
+                        color: $blueMain;
                         font-weight: 300;
+                        margin-left: -48px;
+
+                        @include bp('sm') {
+                            margin-left: -20px;
+                        }
+
+                        @include bp('xs') {
+                            margin-left: 0;
+                        }
                     }
                 }
             }

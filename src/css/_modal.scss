@@ -23,6 +23,28 @@
         }
     }
 
+    .modal-medium {
+        padding: 45px;
+        background-color: $white;
+        position: relative;
+        max-width: 100%;
+
+        @include bp('sm') {
+            padding: 20px;
+        }
+
+        @include bp('xs') {
+            padding: 20px 15px;
+        }
+
+        .close-button {
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            cursor: pointer;
+        }
+    }
+
     .modal-small {
         max-width: 100%;
         background-color: $white;
@@ -35,6 +57,13 @@
 
         @include bp('xs') {
             padding: 20px 15px;
+        }
+
+        .close-button {
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            cursor: pointer;
         }
     }
 
@@ -140,18 +169,6 @@
     }
 
     .MuiButton-textPrimary {
-        font-size: 13px;
-        font-weight: 400;
-        color: $skyBlue;
-        letter-spacing: 0;
-        font-family: 'Roboto', sans-serif;
-        font-style: italic;
-
-        &:hover {
-            color: $blueMain;
-            background-color: transparent;
-        }
-
         input {
             position: absolute;
             top: 0;
@@ -170,36 +187,6 @@
 
     .h2 {
         margin-bottom: 15px;
-    }
-
-    .MuiFormControl-root {
-        width: 100%;
-
-        .WAMuiChipInput-underline-14 {
-            min-height: 110px;
-            margin-bottom: 0;
-            padding: 10px 18px;
-
-            &:before {
-                border: 0.5px solid $blackSecondary;
-                min-height: 110px;
-            }
-
-            &:after {
-                border: 0 ;
-            }
-
-            &:hover:not(.WAMuiChipInput-disabled-13) {
-                &:before {
-                    border: 0.5px solid $blackSecondary;
-                }
-            }
-
-            .WAMuiChipInput-input-3 {
-                position: absolute;
-                top: 0;
-            }
-        }
     }
 }
 
@@ -278,5 +265,18 @@
 
     .MuiLinearProgress-colorPrimary {
         margin-top: 35px;
+    }
+}
+
+// file-preview modal css
+.modal-medium {
+    .h5 {
+        margin-bottom: 20px;
+    }
+
+    p {
+        + p {
+            margin-top: 15px;
+        }
     }
 }

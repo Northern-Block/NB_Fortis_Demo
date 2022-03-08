@@ -7,6 +7,37 @@
     width: 250px !important;
     text-transform: capitalize !important;
     font-family: 'Roboto', sans-serif !important;
+
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+    em {
+        margin-left: 11px;
+        cursor: pointer;
+    }
+}
+
+.MuiButton-textPrimary {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    color: $skyBlue !important;
+    letter-spacing: 0 !important;
+    font-family: 'Roboto', sans-serif !important;
+    font-style: italic;
+    text-transform: capitalize !important;
+
+    &:hover {
+        color: $blueMain !important;
+        background-color: transparent !important;
+    }
 }
 
 .MuiButton-containedPrimary {
@@ -48,6 +79,22 @@
     }
 }
 
+textarea {
+    resize: none;
+    border: 0.5px solid $blackSecondary;
+    min-height: 110px;
+    width: 100%;
+    padding: 10px 18px;
+
+    &::placeholder {
+        color: $greyExtraLight;
+        font-size: 13px;
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        font-style: italic;
+    }
+}
+
 // progress bar css
 .MuiLinearProgress-colorPrimary {
     width: 100%;
@@ -57,5 +104,36 @@
 
     .MuiLinearProgress-barColorPrimary {
         background-color: $blueMain;
+    }
+}
+
+// Checkbox css
+.MuiFormControlLabel-labelPlacementEnd {
+    margin-right: 0 !important;
+
+    .MuiCheckbox-colorPrimary {
+        &:hover {
+            background-color: rgba(0, 50, 108, 0.04);
+        }
+
+        .MuiSvgIcon-fontSizeMedium {
+            width: 20px;
+            height: 20px;
+            fill: $greyLight;
+        }
+
+        &.Mui-checked {
+            .MuiSvgIcon-fontSizeMedium {
+                fill: $blueMain;
+            }
+        }
+    }
+
+    .MuiFormControlLabel-label {
+        font-size: 13px;
+        font-weight: 400;
+        color: $greyExtraLight;
+        font-family: 'Roboto', sans-serif;
+        font-style: italic;
     }
 }

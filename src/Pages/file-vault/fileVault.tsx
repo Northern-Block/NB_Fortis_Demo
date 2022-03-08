@@ -1,5 +1,5 @@
 import * as React from "react";
-import ChipInput from 'material-ui-chip-input';
+import Dropzone from "react-dropzone";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -19,7 +19,6 @@ import {
   LinearProgress,
 } from "@mui/material";
 import "./file-vault.scss";
-
 import user_icon from "../../assets/image/user_icon.png";
 import search_icon from "../../assets/image/search_icon.svg";
 import upload_icon from "../../assets/image/upload_icon.svg";
@@ -165,7 +164,6 @@ const smallModalStyle = {
 export default function FileVault() {
   // file Upload JS
   const [uploadOpen, setUploadOpen] = React.useState(false);
-  const [tags, setTags] = React.useState([]);
   const fileUploadOpen = () => setUploadOpen(true);
   const fileUploadClose = () => setUploadOpen(false);
 
@@ -207,15 +205,15 @@ export default function FileVault() {
     };
   }, []);
 
-
-  const handleDelete = (i: any, chip: any) => {
-    
-    setTags(tags.filter((tag, index) => index !== chip));
+  // Drag & Drop JS
+  const [fileNames, setFileNames] = React.useState([]);
+  const [data, setData] = React.useState([]);
+  const handleDrop = (acceptedFiles: any) => {
+    setFileNames(acceptedFiles.map((file: any) => file.name) as any);
+    setData(acceptedFiles);
+    console.log(data,'file Details')
   };
 
-  const handleAddition = (tag: any) => {
-    setTags([...tags as any, tag] as any);
-  };
   return (
     <>
       {/* Header HTML Start*/}
@@ -273,21 +271,25 @@ export default function FileVault() {
                   </em>
                   <div className="file-drop-outer">
                     <h2 className="h2">Drag or Add Files</h2>
-                    <div className="file-drop-box">
-                      <h2>Add Files</h2>
-                      <Button
-                        variant="contained"
-                        endIcon={
-                          <em>
-                            <img src={upload_icon} alt="upload" />
-                          </em>
-                        }
-                      >
-                        CHOOSE FILES
-                        <input type="file" />
-                      </Button>
-                      <span>or drop files here</span>
-                    </div>
+                    <Dropzone onDrop={handleDrop}>
+                      {({ getRootProps, getInputProps }) => (
+                        <div {...getRootProps({ className: "file-drop-box" })}>
+                          <h2>Add Files</h2>
+                          <Button
+                            variant="contained"
+                            endIcon={
+                              <em>
+                                <img src={upload_icon} alt="upload" />
+                              </em>
+                            }
+                          >
+                            CHOOSE FILES
+                            <input {...getInputProps()} />
+                          </Button>
+                          <span>or drop files here</span>
+                        </div>
+                      )}
+                    </Dropzone>
                   </div>
 
                   <div className="preview-box-outer">
@@ -300,13 +302,8 @@ export default function FileVault() {
 
                   <div className="tag-box-outer">
                     <h2 className="h2">Tags</h2>
-                    <ChipInput
-                      value={tags}
-                      onAdd={(chip) => handleAddition(chip)}
-                      onDelete={(chip, index) => handleDelete(chip, index)}
-                    />
+                    <textarea placeholder="Add a tag and press ENTER"></textarea>
                   </div>
-
 
                   <div className="modal-button">
                     <Button variant="contained" color="primary" disabled>
