@@ -1,16 +1,23 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 import fortis_logo from "../../assets/image/fortis-logo.png";
 import code_scan from "../../assets/image/code-scan.png";
 import veritx_logo from "../../assets/image/veritx_logo.png";
 import "./login.scss";
 
+import LoginVerification from '../login-verification/LoginVerify'
 export default function Login() {
+  const history = useHistory()
+  const handleClick =()=>{
+    // {console.log(' here',e)}
+    history.push('/login-verify')
+  //  <LoginVerification/>
+  }
   return (
     <>
       <div className="wrapper login-page">
         <div className="login-wrapper">
-          <div className="login-inner">
+          <div className="login-inner" onClick={handleClick}>
             <Link to="/" title="Fortis">
               <img src={fortis_logo} alt="logo" />
             </Link>

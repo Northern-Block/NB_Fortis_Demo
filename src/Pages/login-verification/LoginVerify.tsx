@@ -1,6 +1,6 @@
 import { LinearProgress } from "@mui/material";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link ,useHistory} from "react-router-dom";
 import fortis_logo from "../../assets/image/fortis-logo.png";
 import lock_icon from "../../assets/image/lock_icon.svg";
 import unlock_icon from "../../assets/image/unlock-icon.svg";
@@ -10,8 +10,10 @@ import veritx_logo from "../../assets/image/veritx_logo.png";
 import "./login-verify.scss";
 
 export default function LoginVerification() {
+  
   // Progressbar JS
   const [progress, setProgress] = React.useState(0);
+  const history = useHistory()
   React.useEffect(() => {
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
@@ -28,11 +30,15 @@ export default function LoginVerification() {
     };
   }, []);
 
+  const handleFile =()=>{
+    history.push('/file-vault')
+  }
+
   return (
     <>
       <div className="wrapper login-page">
         <div className="login-wrapper">
-          <div className="login-inner">
+          <div className="login-inner"  onClick={handleFile}>
             <Link to="/" title="Fortis">
               <img src={fortis_logo} alt="logo" />
             </Link>

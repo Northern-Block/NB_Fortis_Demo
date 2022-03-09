@@ -77,7 +77,7 @@ export default function Modify() {
               </Button>
               <span>or drop files here</span>
             </div>
-            <div className="file-preview-box">
+            <div className="file-preview-box d-none">
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
                 cumque, nisi eveniet tempore sequi error voluptas tenetur non,
@@ -85,15 +85,21 @@ export default function Modify() {
                 nobis perferendis a dolores eaque!
               </p>
               {/* <em><img src={close_icon} alt="close" /></em> */}
+              <div className="file-name">
+                <h3 className="h3">File_Name_1</h3>
+              </div>
             </div>
-
-            <Editor
+              <div className="d-none">
+              <Editor
               editorState={editorState}
               onEditorStateChange={onEditorStateChange}
               placeholder="Add Comment ... (Minimum 150 characters)"
             />
+              </div>
+           
+                <div  className="d-none">
 
-            <div className="preview-show-main">
+                <div className="preview-show-main">
               <div className="preview-show-outer">
                 <div
                   className="preview-box-show"
@@ -101,7 +107,18 @@ export default function Modify() {
                   role="button"
                   tabIndex={0}
                 >
-                  <div className="preview-box-main"></div>
+                  <div className="preview-box-main">
+                  <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Soluta est praesentium odit, ipsam deserunt
+                        aliquid voluptatem inventore! Ducimus fuga beatae quae,
+                        eum temporibus quisquam. Dicta voluptate ipsam fugiat
+                        dolor expedita.
+                      </p>
+                  <div className="file-name">
+                <h3 className="h3">File_Name_1</h3>
+              </div>
+                    </div>
                   <Button>Replace File</Button>
                 </div>
                 <Modal
@@ -160,7 +177,18 @@ export default function Modify() {
                   role="button"
                   tabIndex={0}
                 >
-                  <div className="preview-box-main"></div>
+                  <div className="preview-box-main">
+                  <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Soluta est praesentium odit, ipsam deserunt
+                        aliquid voluptatem inventore! Ducimus fuga beatae quae,
+                        eum temporibus quisquam. Dicta voluptate ipsam fugiat
+                        dolor expedita.
+                      </p>
+                  <div className="file-name">
+                <h3 className="h3">File_Name_1</h3>
+              </div>
+                    </div>
                   <Button>Replace File</Button>
                 </div>
               </div>
@@ -193,6 +221,8 @@ export default function Modify() {
                 <FormControlLabel control={<Checkbox />} label="Confirm" />
               </div>
             </div>
+                  </div>
+           
 
             <div className="step-outer">
               <ul>

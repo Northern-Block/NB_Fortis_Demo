@@ -28,6 +28,8 @@ import error_icon from "../../assets/image/error-icon.svg";
 import request_check from "../../assets/image/request_check.svg";
 import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
+import { ClassNames } from "@emotion/react";
+import ChipInput from 'material-ui-chip-input';
 
 // Table Data
 function createData(
@@ -164,6 +166,7 @@ const smallModalStyle = {
 export default function FileVault() {
   // file Upload JS
   const [uploadOpen, setUploadOpen] = React.useState(false);
+  const [tags, setTags] = React.useState([]);
   const fileUploadOpen = () => setUploadOpen(true);
   const fileUploadClose = () => setUploadOpen(false);
 
@@ -187,6 +190,9 @@ export default function FileVault() {
   const fileVerifyOpen = () => setFileVerify(true);
   const fileVerifyClose = () => setFileVerify(false);
 
+  const handleReplace =()=>{
+    setUploadOpen(true)
+  }
   // Progressbar JS
   const [progress, setProgress] = React.useState(0);
   React.useEffect(() => {
@@ -208,11 +214,38 @@ export default function FileVault() {
   // Drag & Drop JS
   const [fileNames, setFileNames] = React.useState([]);
   const [data, setData] = React.useState([]);
+  const [searchTerm, setSearchterm] = React.useState("")
   const handleDrop = (acceptedFiles: any) => {
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
     console.log(data,'file Details')
   };
+
+  const handleDelete = (i: any, chip: any) => {
+
+    setTags(tags.filter((tag, index) => index !== chip));
+  };
+
+  const handleAddition = (tag: any) => {
+    setTags([...tags as any, tag] as any);
+  };
+
+  const handleTextChange = (e: any) => {
+    console.log(e.target.value)
+    setSearchterm(e.target.value)
+    // {data
+    //   .filter((val) => {
+    //     if (searchTerm == "") {
+    //       return val
+    //     } else if (
+    //       val.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+    //     )
+    //      {
+    //       return val
+    //     }
+    //   })
+  }
+  // console.log(searchTerm,'searchTerm')
 
   return (
     <>
@@ -231,6 +264,7 @@ export default function FileVault() {
               <TextField
                 fullWidth
                 label="Search File"
+                onChange={handleTextChange}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -269,8 +303,10 @@ export default function FileVault() {
                   >
                     <img src={close_icon} alt="close" />
                   </em>
-                  <div className="file-drop-outer">
+                  {!data.length ?
+                  <div  className="file-drop-outer" >
                     <h2 className="h2">Drag or Add Files</h2>
+
                     <Dropzone onDrop={handleDrop}>
                       {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps({ className: "file-drop-box" })}>
@@ -290,19 +326,40 @@ export default function FileVault() {
                         </div>
                       )}
                     </Dropzone>
-                  </div>
-
-                  <div className="preview-box-outer">
-                    <div className="preview-box-inner" />
-                    <Button>
+                  </div> : <div className="preview-box-outer">
+                    <div className="preview-box-inner" >
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur, adipisicing
+                        elit. Soluta est praesentium odit, ipsam deserunt
+                        aliquid voluptatem inventore! Ducimus fuga beatae quae,
+                        eum temporibus quisquam. Dicta voluptate ipsam fugiat
+                        dolor expedita.
+                      </p>
+                      <div className="file-name">
+                        <h3 className="h3">File_Name_1</h3>
+                      </div>
+                      </div>
+                    <Button onClick={()=>{setData([]);setFileNames([])}}>
                       Replace File
-                      <input type="file" />
+                      {/* <input type="file" /> */}
                     </Button>
-                  </div>
+                  </div> }
 
+                  
+                 <div>
+                 {fileNames.map((fileName) => (
+            <p key={fileName}>{fileName}</p>
+          ))}
+                 </div>
+          
+        
                   <div className="tag-box-outer">
                     <h2 className="h2">Tags</h2>
-                    <textarea placeholder="Add a tag and press ENTER"></textarea>
+                    <ChipInput
+                      value={tags}
+                      onAdd={(chip) => handleAddition(chip)}
+                      onDelete={(chip, index) => handleDelete(chip, index)}
+                    />
                   </div>
 
                   <div className="modal-button">

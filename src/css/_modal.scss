@@ -151,7 +151,7 @@
     max-width: 100%;
     margin: 0 auto;
     text-align: center;
-    display: none;
+    // display:block;
 
     @include bp('xxs') {
         width: 100%;
@@ -159,12 +159,39 @@
 
     .preview-box-inner {
         border: 1px solid $greyLight;
-        @include border-radius(25px);
-        padding: 50px;
+        @include border-radius(24px);
+        @include border-radius(24px);
+        @include flexbox();
+        @include justify-content(space-between);
+        @include flex-direction(column);
+        min-height: 227px;
+
+        @include bp('xs') {
+            @include border-radius(4px);
+        }
+
+        p {
+            text-align: left;
+            padding: 25px 50px;
+
+            @include bp('xs') {
+                padding: 20px 15px;
+            }
+        }
+
+        .file-name {
+            border-top: 1px solid $greyLight;
+            padding: 20px 10px;
+
+            @include bp('xs') {
+                padding: 10px;
+            }
+        }
+       
 
         @include bp('xxs') {
-            @include border-radius(5px);
-            padding: 20px 15px;
+            @include border-radius(4px);
+            
         }
     }
 
@@ -187,6 +214,35 @@
 
     .h2 {
         margin-bottom: 15px;
+    }
+    .MuiFormControl-root {
+        width: 100%;
+
+        .WAMuiChipInput-underline-14 {
+            min-height: 110px;
+            margin-bottom: 0;
+            padding: 10px 18px;
+
+            &:before {
+                border: 0.5px solid $blackSecondary;
+                min-height: 110px;
+            }
+
+            &:after {
+                border: 0 ;
+            }
+
+            &:hover:not(.WAMuiChipInput-disabled-13) {
+                &:before {
+                    border: 0.5px solid $blackSecondary;
+                }
+            }
+
+            .WAMuiChipInput-input-3 {
+                position: absolute;
+                top: 0;
+            }
+        }
     }
 }
 

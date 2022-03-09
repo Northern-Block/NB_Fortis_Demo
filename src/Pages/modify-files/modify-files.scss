@@ -34,7 +34,7 @@
                 @include border-radius(4px);
                 padding: 103px 15px;
                 text-align: center;
-                // display: none;
+                
 
                 @include bp('sm') {
                     padding: 50px 15px;
@@ -85,17 +85,25 @@
                 margin: 0 auto;
                 @include border-radius(24px);
                 border: 1px solid $greyLight;
-                padding: 50px 30px;
+                @include flexbox();
+                @include justify-content(space-between);
+                @include flex-direction(column);
+                min-height: 227px;
                 position: relative;
-                display: none;
-
+                
                 @include bp('xs') {
-                    padding: 20px 15px;
                     @include border-radius(4px);
                 }
 
                 @include bp('xxs') {
                     width: 100%;
+                }
+                p {
+                    padding: 46px 50px;
+
+                    @include bp('xs') {
+                        padding: 20px 15px;
+                    }
                 }
 
                 em {
@@ -104,13 +112,22 @@
                     right: -20px;
                     top: -20px;
                 }
+                .file-name {
+                    border-top: 1px solid $greyLight;
+                    padding: 20px 10px;
+                    text-align: center;
+        
+                    @include bp('xs') {
+                        padding: 10px;
+                    }
+                }
             }
 
             .preview-show-main{
                 width: 500px;
                 margin: 0 auto;
                 max-width: 100%;
-                display: none;
+                
 
                 @include bp('xxs') {
                     width: 100%;
@@ -142,13 +159,32 @@
                         .preview-box-main {
                             @include border-radius(24px);
                             border: 1px solid $greyLight;
-                            padding: 50px 30px;
+                            @include flexbox();
+                            @include justify-content(space-between);
+                            @include flex-direction(column);
+                            min-height: 227px;
                             cursor: pointer;
 
                             @include bp('xs') {
-                                padding: 20px 15px;
                                 @include border-radius(4px);
+                              }
+
+                            p {
+                                padding: 25px 50px;
+                                
+                                @include bp('xs') {
+                                    padding: 20px 15px;
+                                }
                             }
+
+                            .file-name {
+                                border-top: 1px solid $greyLight;
+                                padding: 20px 20px;
+
+                                @include bp('xs') {
+                                    padding: 10px ;
+                                }
+                            }                          
                         }
                     }
                 }
@@ -156,7 +192,7 @@
 
             .comment-box {
                 margin-top: 13px;
-                display: none;
+              
 
                 .comment-header {
                     @include flexbox();

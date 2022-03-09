@@ -313,6 +313,11 @@ body {
   }
 }
 
+// display none class
+.d-none {
+  display: none !important;
+}
+
 a {
   text-decoration: none;
   @include inline-block();
