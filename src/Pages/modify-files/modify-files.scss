@@ -4,14 +4,18 @@
     &.modify-files {
         padding: 180px 30px 140px 260px;
 
+        @include bp('xmd') {
+            padding: 132px 15px 15px;
+        }
+
         .file-box-outer {
             background-color: $white;
-            width: 947px;
+            width: 924px;
             max-width: 100%;
-            margin: 52px auto;
+            margin: 44px auto;
             box-shadow: 0 4px 4px rgba($black, 0.15);
             @include border-radius(4px);
-            padding: 67px 47px;
+            padding: 67px 47px 77px;
 
             @include bp('lg') {
                 width: 850px;
@@ -26,13 +30,13 @@
             @include bp('xs') {
                 width: 100%;
                 padding: 20px 15px;
-                margin: 20px 0;
+                margin: 40px 0 20px;
             }
 
             .file-box-inner {
                 border: 1px dashed $blueMain;
                 @include border-radius(4px);
-                padding: 103px 15px;
+                padding: 100px 15px 118px;
                 text-align: center;
                 
 
@@ -124,7 +128,7 @@
             }
 
             .preview-show-main{
-                width: 500px;
+                width: 700px;
                 margin: 0 auto;
                 max-width: 100%;
                 
@@ -170,7 +174,7 @@
                               }
 
                             p {
-                                padding: 25px 50px;
+                                padding: 46px 50px;
                                 
                                 @include bp('xs') {
                                     padding: 20px 15px;
@@ -179,7 +183,8 @@
 
                             .file-name {
                                 border-top: 1px solid $greyLight;
-                                padding: 20px 20px;
+                                padding: 20px 10px;
+                                text-align: center;
 
                                 @include bp('xs') {
                                     padding: 10px ;
@@ -238,7 +243,7 @@
                 @include flexbox();
                 @include justify-content(space-between);
                 @include align-items(center);
-                margin-top: 69px;
+                margin-top: 75px;
 
                 @include bp('sm') {
                     margin-top: 40px;

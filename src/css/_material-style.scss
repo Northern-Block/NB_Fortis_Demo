@@ -91,34 +91,8 @@
     }
 }
 
-// // chip Css
-// .WAMuiChipInput-root-1 {
-//     width: 100%;
-//     .WAMuiChipInput-underline-14 {
-//         &:before {
-//             border-bottom: 0;
-//             border: 0.5px solid $blackSecondary;
-//             min-height: 120px;
-//         }
-
-//         &:hover {
-//             &:not(.WAMuiChipInput-disabled-13), &:not(.WAMuiChipInput-focused-12), &:not(.WAMuiChipInput-error-15){
-//                 &:before {
-//                     border: 0.5px solid $blackSecondary;
-//                 }
-//             }
-//         }
-
-//         .WAMuiChipInput-input-3 {
-//             min-height: 80px;
-//         }
-
-//         &:after {
-//             border: 0;
-//         }
-//     }
-// }
-
+// chip Css
+ 
 .MuiChip-clickable {
     background-color: $blackSecondary !important;
     color: $white !important;

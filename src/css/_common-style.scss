@@ -284,6 +284,10 @@ body {
   }
 }
 
+.public-DraftStyleDefault-block {
+  margin: 0;
+}
+
 // pre-header-search css
 .file-search {
   @include flexbox();
@@ -295,7 +299,7 @@ body {
   width: calc(100% - 260px);
   left: 260px;
   top: 80px;
-  z-index: 7;
+  z-index: 9;
 
   @include bp('md') {
     padding: 12px 30px;
@@ -305,7 +309,7 @@ body {
     @include justify-content(center);
     left: 0;
     width: 100%;
-    top: 71px;
+    top: 70px;
   }
 
   @include bp('xs') {
@@ -405,7 +409,7 @@ h3 {
   &.h3 {
     font-size: 16px;
     font-weight: 500;
-    color: $greyDark;
+    color: $black;
   }
 }
 

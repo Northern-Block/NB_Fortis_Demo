@@ -6,6 +6,7 @@ header {
   top: 0;
   padding: 16.5px 50px;
   width: calc(100% - 260px);
+  box-shadow: 0 4px 4px rgba($black, 0.05);
 
   @include bp('md') {
     padding: 16.5px 30px;
@@ -15,7 +16,6 @@ header {
     left: 0;
     width: 100%;
     padding: 15px;
-    border-bottom: 1px solid $greyLight;
   }
 
   .header-outer {

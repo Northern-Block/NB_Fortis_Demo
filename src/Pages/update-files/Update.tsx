@@ -70,11 +70,11 @@ export default function Update() {
   return (
     <>
       {/* Header HTML Start*/}
-      <Header />
+      {/* <Header /> */}
       {/* Header HTML End*/}
 
       {/* Sidebar HTML Start*/}
-      <Sidebar />
+      {/* <Sidebar /> */}
       {/* Sidebar HTML End*/}
       <div className="wrapper">
         <div className="main-content user-activity">

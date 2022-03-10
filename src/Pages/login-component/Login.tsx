@@ -9,7 +9,7 @@ import LoginVerification from '../login-verification/LoginVerify'
 export default function Login() {
   const history = useHistory()
   const handleClick =()=>{
-    // {console.log(' here',e)}
+  
     history.push('/login-verify')
   //  <LoginVerification/>
   }

@@ -30,6 +30,7 @@ import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
 import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
+import { useState } from "react";
 
 // Table Data
 function createData(
@@ -164,11 +165,15 @@ const smallModalStyle = {
 };
 
 export default function FileVault() {
+
+  //Dummy File Data 
+  const [ rowData, setRowData ] = useState(rows);
+
   // file Upload JS
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [tags, setTags] = React.useState([]);
   const fileUploadOpen = () => setUploadOpen(true);
-  const fileUploadClose = () => setUploadOpen(false);
+  const fileUploadClose = () => {setUploadOpen(false); setData([]);}
 
   // File Detail Modal JS
   const [fileOpen, setFileOpen] = React.useState(false);
@@ -214,7 +219,6 @@ export default function FileVault() {
   // Drag & Drop JS
   const [fileNames, setFileNames] = React.useState([]);
   const [data, setData] = React.useState([]);
-  const [searchTerm, setSearchterm] = React.useState("")
   const handleDrop = (acceptedFiles: any) => {
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
@@ -231,30 +235,29 @@ export default function FileVault() {
   };
 
   const handleTextChange = (e: any) => {
-    console.log(e.target.value)
-    setSearchterm(e.target.value)
-    // {data
-    //   .filter((val) => {
-    //     if (searchTerm == "") {
-    //       return val
-    //     } else if (
-    //       val.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
-    //     )
-    //      {
-    //       return val
-    //     }
-    //   })
+    // Search Functionality
+    let search: any = e.target.value;
+
+    if (e.target.value === "") {
+      setRowData(rows);
+    } else {
+      let newRowData: any = rows.filter((data) => {
+        if (data.fileName.toLocaleLowerCase().includes(search.toLocaleLowerCase())) {
+          return data;
+        }
+      });
+      setRowData(newRowData);
+    }
   }
-  // console.log(searchTerm,'searchTerm')
 
   return (
     <>
       {/* Header HTML Start*/}
-      <Header />
+      {/* <Header /> */}
       {/* Header HTML End*/}
 
       {/* Sidebar HTML Start*/}
-      <Sidebar />
+      {/* <Sidebar /> */}
       {/* Sidebar HTML End*/}
       <div className="wrapper">
         <div className="main-content file-vault">
@@ -334,10 +337,13 @@ export default function FileVault() {
                         aliquid voluptatem inventore! Ducimus fuga beatae quae,
                         eum temporibus quisquam. Dicta voluptate ipsam fugiat
                         dolor expedita.
-                      </p>
-                      <div className="file-name">
-                        <h3 className="h3">File_Name_1</h3>
-                      </div>
+                        </p>
+                        <div className="file-name">
+                        
+                            {fileNames.map((fileName) => (
+                                <h3 className="h3">{fileName}</h3>
+                            ))}
+                        </div>
                       </div>
                     <Button onClick={()=>{setData([]);setFileNames([])}}>
                       Replace File
@@ -346,11 +352,11 @@ export default function FileVault() {
                   </div> }
 
                   
-                 <div>
+                 {/* <div>
                  {fileNames.map((fileName) => (
             <p key={fileName}>{fileName}</p>
           ))}
-                 </div>
+                 </div> */}
           
         
                   <div className="tag-box-outer">
@@ -363,9 +369,15 @@ export default function FileVault() {
                   </div>
 
                   <div className="modal-button">
+                  {!data.length ?
                     <Button variant="contained" color="primary" disabled>
                       UPLOAD
                     </Button>
+                    :
+                    <Button variant="contained" color="primary" >
+                    UPLOAD
+                  </Button>
+}
                   </div>
                 </div>
               </Modal>
@@ -389,7 +401,7 @@ export default function FileVault() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row) => (
+                  {rowData.map((row) => (
                     <TableRow>
                       <TableCell>
                         <div className="table-data">

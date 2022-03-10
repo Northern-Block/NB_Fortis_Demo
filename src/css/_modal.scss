@@ -151,7 +151,6 @@
     max-width: 100%;
     margin: 0 auto;
     text-align: center;
-    // display:block;
 
     @include bp('xxs') {
         width: 100%;
@@ -159,7 +158,6 @@
 
     .preview-box-inner {
         border: 1px solid $greyLight;
-        @include border-radius(24px);
         @include border-radius(24px);
         @include flexbox();
         @include justify-content(space-between);
@@ -189,10 +187,6 @@
         }
        
 
-        @include bp('xxs') {
-            @include border-radius(4px);
-            
-        }
     }
 
     .MuiButton-textPrimary {

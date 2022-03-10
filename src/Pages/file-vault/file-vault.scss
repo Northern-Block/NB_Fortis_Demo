@@ -42,7 +42,7 @@
           }
 
           .MuiInputLabel-filled {
-            @include transform(translate(12px, 15px) scale(1));
+            @include transform(translate(12px, 10px) scale(1));
             font-size: 13px;
             font-weight: 400;
             color: $blackPrimary;
@@ -65,7 +65,7 @@
             }
 
             .MuiFilledInput-input {
-              padding: 12px 12px;
+              padding: 8px 12px;
             }
           }
 
