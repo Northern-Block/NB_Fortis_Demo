@@ -2,52 +2,60 @@ import * as React from 'react';
 import { loginAction } from './actions/loginAction'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import _ from 'lodash';
-import { version } from '../../config';
-
-import {useHistory} from "react-router-dom";
-import fortis_logo from "../../assets/image/fortis-logo.png";
-import code_scan from "../../assets/image/code-scan.png";
-import veritx_logo from "../../assets/image/veritx_logo.png";
-import "./login.scss";
-import { toastr } from 'react-redux-toastr';
 import { messaging } from '../../init-fcm';
+import { version } from '../../config';
+import { createBrowserHistory } from 'history';
+import _ from 'lodash';
+import { toastr } from 'react-redux-toastr';
+import { scanPasswordlessLoginQRCodePage } from '../commonConst';
+const { detect } = require('detect-browser');
+const browser = detect();
+let QRCode = require('qrcode.react');
 const message: any = messaging;
+const history = createBrowserHistory();
 
-/*Interface for props values */
-export interface ILoginFormProps {
+/* Interface for Props variables*/
+export interface IScanQRProps {
+  loginAction: any,
+  LoginReducer: any,
+  LoaderReducer: any,
 }
 
-/*Interface for local state values */
-export interface ILoginFormState {
-  formData: any,
-  errors: any,
-  showTerms: boolean,
-  acceptTerms: boolean,
-  pushNotificationToken: string
+/* Interface for local states variables*/
+export interface IScanQRState {
+  loginData: {
+    username: string,
+    password: string,
+  },
+  submitted: boolean,
+  pushNotificationToken: any,
+  fireBaseWarn: boolean,
+  fireBaseWarnMessage: string,
+  fireBaseWarnColor: string,
+  socketId: string,
+  proofRequestUrl: string
 }
 
-export default class LoginForm extends React.Component<ILoginFormProps, ILoginFormState> {
-  constructor(props: ILoginFormProps) {
+export default class ScanQR extends React.Component<IScanQRProps, IScanQRState> {
+  constructor(props: IScanQRProps) {
     super(props);
-
-    /* Initialization of local state variables. */
+    /* Initialization of state variables*/
     this.state = {
-      formData: {},
-      errors: {},
-      showTerms: false,
-      acceptTerms: false,
-      pushNotificationToken: ''
+      loginData: {
+        username: '',
+        password: '',
+      },
+      pushNotificationToken: '',
+      submitted: false,
+      fireBaseWarn: false,
+      fireBaseWarnMessage: '',
+      fireBaseWarnColor: '',
+      socketId: '',
+      proofRequestUrl: ''
     }
-    /* Bind all the methods. */
-    this.handleChange = this.handleChange.bind(this);
-    this.login = this.login.bind(this);
-    this.termsChange = this.termsChange.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.acceptTerms = this.acceptTerms.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (message !== undefined) {
       /* Method call to permission request for the firebase token. */
       message.requestPermission()
@@ -55,239 +63,140 @@ export default class LoginForm extends React.Component<ILoginFormProps, ILoginFo
           /* Method to get firebase token */
           message.getToken()
             .then(async (token: any) => {
+              /* API call to get shortening URL for password-less login by passing the firebase token */
+              await this.props.loginAction.getPresentProofRequest(token);
               this.setState({ pushNotificationToken: token });
+              let proofRequestUrl = this.props.LoginReducer.presentProofRequest
+              this.setState({ pushNotificationToken: token, proofRequestUrl });
             })
             .catch((error: any) => {
               throw error;
             })
+
+          /* Method to handle the firebase notification event and throw the notification on browser 
+             and based on data redirect the nest page */
+          navigator.serviceWorker.addEventListener("message", (message) => {
+            /* Condition to check the firebase message type. */
+            if (message.data.firebaseMessaging.payload.data.type === "LOGIN") {
+              const userRecord = JSON.parse(message.data.firebaseMessaging.payload.data.record);
+              const loginPayload = userRecord.otherUserFields;
+              const token = userRecord.accessToken;
+              /* Method call to set current user in redux-store. */
+              this.props.loginAction.setCurrentUser(loginPayload)
+              /* Based on user role, agent spin-up status and on-barding status set the routes for next page. */
+              if (loginPayload.role.id !== 1 && loginPayload.organization.agentSpinupStatus === 0 && loginPayload.organization.isOnBoarded === 1) {
+                localStorage.setItem('token', token);
+                history.push('/pending-state')
+              } else if (loginPayload.role.id !== 1 && loginPayload.organization.agentSpinupStatus === 0 && loginPayload.organization.isOnBoarded === 0) {
+                toastr.message(`Complete Your Registration Process`, `Please go to first time login`)
+              } else if (loginPayload.organization.organizationRunningStatus !== 'Active') {
+                toastr.error(`Login failed`, `${loginPayload.organization.orgName} access has been blocked. Kindly contact the Administrator`)
+              } else {
+                if (loginPayload.role.id === 1) {
+                  localStorage.setItem('token', token);
+                  history.push('/platformAdmin-dashboard')
+                } else if (loginPayload.role.id === 2 || loginPayload.role.id === 6) {
+                  if (loginPayload.organization.isOnBoarded === 2 && loginPayload.organization.agentSpinupStatus === 0 && loginPayload.organization.isDashboard === false) {
+                    localStorage.setItem('token', token);
+                    history.push('/create-wallet')
+                  } else if (loginPayload.organization.agentSpinupStatus === 2 && loginPayload.organization.isDashboard === false) {
+                    localStorage.setItem('token', token);
+                    history.push('/create-wallet')
+                  } else if (loginPayload.organization.agentSpinupStatus === 2 && loginPayload.organization.isDashboard === true) {
+                    localStorage.setItem('token', token);
+                    if (!_.isEmpty(loginPayload.organization.subscription) && loginPayload.organization.subscription.id === 1) {
+                      history.push('/orgAdmin-dashboard')
+                    } else if (!_.isEmpty(loginPayload.organization.subscription) && loginPayload.organization.subscription.id === 2) {
+                      history.push('/orgAdmin-dashboard')
+                    } else if (!_.isEmpty(loginPayload.organization.subscription) && loginPayload.organization.subscription.id === 3) {
+                      history.push('/orgAdmin-dashboard')
+                    }
+                  } else if (loginPayload.organization.agentSpinupStatus === 0 && loginPayload.organization.isDashboard === false && loginPayload.organization.isOnBoarded === 3) {
+                    localStorage.setItem('token', token);
+                    history.push('/request-failed')
+                  }
+                } else if (loginPayload.role.id === 3 && loginPayload.isActive) {
+                  localStorage.setItem('token', token);
+                  history.push('/issuer-dashboard')
+                } else if (loginPayload.role.id === 4 && loginPayload.isActive) {
+                  localStorage.setItem('token', token);
+                  history.push('/verifier-dashboard')
+                } else if (loginPayload.role.id === 5 && loginPayload.isActive) {
+                  localStorage.setItem('token', token);
+                  history.push('/both-dashboard')
+                } else {
+                  toastr.info(`Currently, you are not activated for a login`, ``);
+                }
+              }
+            }
+          })
         })
         .catch(function (err: any) {
           console.error("Unable to get permission to notify.", err);
           toastr.info(`Please check your browser notification permission`, ``)
         });
+
     }
-    /* Check local storage values and if it is present then call get current logged in user action method. */
-    if (localStorage.length > 0) {
-      {}; //this.props.loginAction.getCurrentUser();
-    }
-  }
-
-  /**
-   * Method used for getting the login form values and set it in state variable.
-   * @param event 
-   */
-  handleChange(event: React.ChangeEvent<HTMLInputElement> | any) {
-    let formData = this.state.formData;
-    formData[event.target.name] = event.target.value;
-    formData['firebaseToken'] = this.state.pushNotificationToken
-    this.setState({
-      formData: formData
-    });
-    /* Method call for validate the typed value in login form */
-    this.validateForm();
-  }
-
-  /**
-   * Method used to accept term and condition of platform.
-   * @param event 
-   */
-  termsChange(event: React.ChangeEvent<HTMLInputElement> | any) {
-    let fields = this.state.formData;
-    fields["terms"] = event.currentTarget.value;
-    this.setState({
-      formData: fields,
-      showTerms: true,
-    });
-  }
-
-  /**
-   * Method used for calling the login action
-   * @param event 
-   */
-  login(event: React.ChangeEvent<HTMLInputElement> | any) {
-    const { formData } = this.state;
-  }
-
-  /**
-   * Method used to validate the form field  
-   * @returns Validate the form field and return the error message or value
-   */
-  validateForm() {
-    let formData: any = this.state.formData;
-    let errors: any = {};
-    let formIsValid: any = true;
-
-    if (!formData["fullName"] && typeof formData["fullName"] !== "undefined") {
-      formIsValid = false;
-      errors["fullName"] = "*Please enter Full Name only.";
-    }
-
-    if (typeof formData["emailAddress"] !== "undefined") {
-      //regular expression for emailAddress validation
-      var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-      if (!pattern.test(formData["emailAddress"])) {
-        formIsValid = false;
-        errors["emailAddress"] = "*Please enter valid email-ID.";
+    else {
+      /* Condition to check browser and based on show the firebase not support message */
+      if (browser.name === "safari" && browser.os === "Mac OS") {
+        this.setState({ fireBaseWarn: true, fireBaseWarnMessage: "This browser does not support notification", fireBaseWarnColor: 'danger' });
+        setTimeout(() => { this.setState({ fireBaseWarn: false }); }, 3000);
+        /* Toaster Message to inform the firebase notification support. */
+        toastr.info(`${this.state.fireBaseWarnMessage}`, ``)
       }
     }
-
-    if (!formData["initialPassword"] && typeof formData["initialPassword"] !== "undefined") {
-      formIsValid = false;
-      errors["initialPassword"] = "*Please enter Initial Password only.";
-    }
-
-    this.setState({
-      errors: errors
-    });
-    return formIsValid;
-  }
-
-  /**
-   * Method used for closing the terms and condition modal
-   */
-  closeModal() {
-    this.setState({
-      showTerms: false,
-      acceptTerms: false,
-    })
-  }
-
-  /**
-   * Method used to accept terms and condition
-   */
-  acceptTerms() {
-    this.setState({
-      showTerms: false,
-      acceptTerms: true,
-    })
   }
 
   public render() {
-    const userDetails = {}
-    const switchToScanQR = {}
-    const { formData, errors, acceptTerms } = this.state
-		//const history = useHistory()
+    const { proofRequestUrl } = this.state;
 
-    /* Checking the different status of logged in user and based on that redirect to next page */
-    if (!_.isEmpty(userDetails) && localStorage.length > 0) {
-      if (userDetails.role.id !== 1 && userDetails.organization.agentSpinupStatus === 0 && userDetails.organization.isOnBoarded === 1) {
-        // return (<>{history.push('/pending-state')}</>)
-        return (<>history.push</>)
-      } else if (userDetails.role.id !== 1 && userDetails.organization.agentSpinupStatus === 0 && userDetails.organization.isOnBoarded === 0) {
-        toastr.message(`Complete Your Registration Process`, `Please go to first time login`)
-      } else {
-        if (userDetails.role.id === 1) {
-          // return (<>{history.push('/platformAdmin-dashboard')}</>)
-          return (<>history.push</>)
-        } else if (userDetails.role.id === 2 || userDetails.role.id === 6) {
-          if (userDetails.organization.isOnBoarded === 2 && userDetails.organization.agentSpinupStatus === 1 && userDetails.organization.isDashboard === false) {
-            // return (<>{history.push('/create-wallet')}</>)
-          	return (<>history.push</>)
-          } else
-            if (userDetails.organization.isOnBoarded === 2 && userDetails.organization.agentSpinupStatus === 0 && userDetails.organization.isDashboard === false) {
-              // return (<>{history.push('/create-wallet')}</>)
-          		return (<>history.push</>)
-            } else if (userDetails.organization.agentSpinupStatus === 2 && userDetails.organization.isDashboard === false) {
-              // return (<>{history.push('/create-wallet')}</>)
-          		return (<>history.push</>)
-              // history.push('/dashboard')
-            } else if (userDetails.organization.agentSpinupStatus === 2 && userDetails.organization.isDashboard === true) {
-              if (!_.isEmpty(userDetails.organization.subscription) && userDetails.organization.subscription.id === 1) {
-                // return (<>{history.push('/orgAdmin-dashboard')}</>)
-          			return (<>history.push</>)
-              } else if (!_.isEmpty(userDetails.organization.subscription) && userDetails.organization.subscription.id === 2) {
-                // return (<>{history.push('/orgAdmin-dashboard')}</>)
-          			return (<>history.push</>)
-              } else if (!_.isEmpty(userDetails.organization.subscription) && userDetails.organization.subscription.id === 3) {
-                // return (<>{history.push('/orgAdmin-dashboard')}</>)
-          			return (<>history.push</>)
+    return (
+      <>
+        <div className="text-center">
+          <h1 className="mb-5 nb-title-700">{scanPasswordlessLoginQRCodePage.WELCOME_MESSAGE}</h1>
+          <div className="card shadow m-auto" style={{ width: '340px' }}>
+            <div className="card-body">
+              {proofRequestUrl == '' ?
+                <>
+                  <div className="content-loader justify-content-center h-100 pt-4">
+                    <span className="mt-7 align-self-start">
+                      <i className="fas fa-3x fa-circle-notch fa-spin"></i>
+                    </span>
+                    <p className='text-warning'>{scanPasswordlessLoginQRCodePage.QR_CODE_WAITING_MESSAGE}</p>
+                  </div>
+                </>
+                :
+                <QRCode value={proofRequestUrl} size={300} />
               }
-            } else if (userDetails.organization.agentSpinupStatus === 0 && userDetails.organization.isDashboard === false && userDetails.organization.isOnBoarded === 3) {
-              // return (<>{history.push('/request-failed')}</>)
-          		return (<>history.push</>)
-            }
-        } else if (userDetails.role.id === 3 && userDetails.isActive) {
-          // return (<>{history.push('/issuer-dashboard')}</>)
-          return (<>history.push</>)
-        } else if (userDetails.role.id === 4 && userDetails.isActive) {
-          // return (<>{history.push('/verifier-dashboard')}</>)
-          return (<>history.push</>)
-        } else if (userDetails.role.id === 5 && userDetails.isActive) {
-          // return (<>{history.push('/both-dashboard')}</>)
-          return (<>history.push</>)
-        } else {
-          toastr.info(`Currently, you are not activated for a login`, ``);
-        }
-      }
-    } else {
-      return (
-        <div>
-          <div className="text-center">
-            <h1 className="mb-5 nb-title-700">Welcome to Northern Block Issuer &amp; Verifier Platform</h1>
+            </div>
           </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="form-group">
-                <label className="nb-label">FULL NAME<span>*</span> (Admin Name)</label>
-                <input type="text" className="form-control" name="fullName" value={formData.fullName ? formData.fullName : ""}
-                  onChange={(e) => this.handleChange(e)} />
-                <div className="text-danger">{errors.fullName}</div>
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <label className="nb-label">EMAIL ADDRESS<span>*</span></label>
-                <input type="text" className="form-control" name="emailAddress" value={formData.emailAddress ? formData.emailAddress : ""}
-                  onChange={(e) => this.handleChange(e)} />
-                <div className="text-danger">{errors.emailAddress}</div>
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <label className="nb-label">INITIAL PASSWORD<span>*</span></label>
-                <input type="text" className="form-control" name="initialPassword" value={formData.initialPassword ? formData.initialPassword : ""}
-                  onChange={(e) => this.handleChange(e)} />
-                <div className="text-danger">{errors.initialPassword}</div>
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <div className="custom-control custom-checkbox">
-                  <input type="checkbox" className="custom-control-input" id="customCheck1" name="terms" value={"terms"} checked={acceptTerms ? true : false}
-                    onChange={(e) => this.termsChange(e)}
-                  />
-                  <label className="custom-control-label nb-label" htmlFor="customCheck1">I agree the Terms and Conditions.<span>*</span></label>
-                </div>
-              </div>
-            </div>
-            <div className="col-sm-12">
-              <div className="form-group">
-                <button type="button" className="btn btn-nb-blue btn-lg btn-block"
-                  disabled={!_.isEmpty(errors) || !formData.fullName || !formData.emailAddress || !formData.initialPassword || !acceptTerms}
-                  onClick={(e) => this.login(e)}><i className="nb-ico nb-finger-print"></i> Sign In</button>
-              </div>
-            </div>
-            <div className="col-sm-12">
-            </div>
-            <div className="col-sm-12">
-              <small className="text-muted">Version {version.version}</small>
-            </div>
+          <div className="mt-3">
+            <h4 className="text-blue">{scanPasswordlessLoginQRCodePage.SCAN_TO_LOGIN}</h4>
+          </div>
+          <div className="mt-3">
+            <a className="nb-link" href='/login'>{scanPasswordlessLoginQRCodePage.BACK_TO_FIRST_TIME_LOGIN_PAGE_LINK}</a>
+          </div>
+          <div>
+            <small className="text-muted">{scanPasswordlessLoginQRCodePage.APPLICATION_VERSION} {version.version}</small>
           </div>
         </div>
-      );
-    }
+      </>
+    );
   }
 }
 
 function mapStateToProps(state: any) {
-  return {}
+  const LoginReducer = state.LoginReducer;
+  const LoaderReducer = state.LoaderReducer;
+  return { LoginReducer, LoaderReducer }
 }
 
 function mapDispatchToProps(dispatch: any) {
   return {
-    loginAction: {},
+    loginAction: bindActionCreators(loginAction, dispatch),
   }
 }
 
-const connectedLoginForm = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
-export { connectedLoginForm as LoginForm };
+const connectedScanQR = connect(mapStateToProps, mapDispatchToProps)(ScanQR);
+export { connectedScanQR as ScanQR };
