@@ -310,7 +310,7 @@ const AddFile = () => {
                   {rows.map((row) => (
                     <TableRow>
                       <TableCell>
-                        <div className="table-data">
+                        <div className="table-data has-underline">
                           <em>
                             <img src={file_icon} alt="file" />
                           </em>

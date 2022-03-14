@@ -107,7 +107,7 @@ export default function Update() {
                   {rows.map((row) => (
                     <TableRow>
                       <TableCell>
-                        <div className="table-data has-no-cursor">
+                        <div className="table-data has-no-cursor has-underline">
                           <em>
                             <img src={file_icon} alt="file" />
                           </em>
@@ -151,7 +151,7 @@ export default function Update() {
                   {rows.map((row) => (
                     <TableRow>
                       <TableCell>
-                        <div className="table-data has-no-cursor">
+                        <div className="table-data has-no-cursor has-underline">
                           <em>
                             <img src={file_icon} alt="file" />
                           </em>

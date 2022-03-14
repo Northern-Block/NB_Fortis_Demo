@@ -72,6 +72,24 @@
 
                             &.has-no-cursor {
                                 cursor: default;
+
+                                em {
+                                    img {
+                                        width: 26px;
+                                        height: 26px;
+                                        @include border-radius(50%);
+                                    }
+                                }
+                            }
+
+                            &.has-underline {
+                                text-decoration: underline;
+
+                                span {
+                                    &:hover {
+                                        text-decoration: underline;
+                                    }
+                                }
                             }
 
                             em {
@@ -84,7 +102,7 @@
                                 @include transition(all 0.5s);
 
                                 &:hover {
-                                    color: $black;
+                                    color: $blueMain;
                                 }
                             }
                         }

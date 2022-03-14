@@ -11,8 +11,8 @@ import Sidebar from 'components/sidebar';
 const Routings = () => {
 	return(<>
 		<BrowserRouter>
-		<Header/>
-		<Sidebar />
+		{/* <Header/> */}
+		{/* <Sidebar /> */}
 			<Switch>
 				<Route exact path={'/'}>
 					<Login/>
@@ -23,17 +23,25 @@ const Routings = () => {
 				</Route>
 
 				<Route exact path={'/file-vault'}>
+				<Header/>
+				<Sidebar />
 					<FileVault/>
 				</Route>
 				
 				<Route exact path={'/my-files'}>
+				<Header/>
+				<Sidebar />
 					<AddFile/>
 				</Route>
 				
 				<Route exact path={'/user-activity'}>
+				<Header/>
+				<Sidebar />
 					<Update/>
 				</Route>
 				<Route exact path={'/modify-files'}>
+				<Header/>
+				<Sidebar />
 					<Modify/>
 				</Route>
 			</Switch>

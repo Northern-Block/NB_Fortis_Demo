@@ -3,6 +3,7 @@ import Dropzone from "react-dropzone";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
+import fs from 'fs'
 import {
   Button,
   InputAdornment,
@@ -30,6 +31,7 @@ import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
 import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
+import axios from 'axios';
 import { useState } from "react";
 
 // Table Data
@@ -43,105 +45,71 @@ function createData(
   return { fileName, owner, description, lastModified, lastModifiedBy };
 }
 
+
 const rows = [
-  createData(
-    "File_name_1",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_2",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
-  createData(
-    "File_name_3",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_4",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
-  createData(
-    "File_name_5",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_6",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
-  createData(
-    "File_name_7",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_8",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
-  createData(
-    "File_name_9",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_10",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
-  createData(
-    "File_name_11",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_12",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
-  createData(
-    "File_name_13",
-    "Me",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Me"
-  ),
-  createData(
-    "File_name_14",
-    "Jane",
-    "This is a generic item description. Please replace this with a more appro......",
-    "25/02/2022  15:01:22",
-    "Jane"
-  ),
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
+  {
+    fileName:"File_name_1",
+    owner:"Me",
+    description:"This is a generic item description. Please replace this with a more appro......",
+    lastModified:"25/02/2022  15:01:22",
+    lastModifiedBy:"Me"
+  },
 ];
 
 // large Modal Style
@@ -195,6 +163,7 @@ export default function FileVault() {
   const fileVerifyOpen = () => setFileVerify(true);
   const fileVerifyClose = () => setFileVerify(false);
 
+  const [filelist,setFileList] = React.useState()
   const handleReplace =()=>{
     setUploadOpen(true)
   }
@@ -216,15 +185,38 @@ export default function FileVault() {
     };
   }, []);
 
+  React.useEffect(()=>{
+    axios.get('http://localhost:3005/fortis/getfile')
+    .then(res =>{
+      console.log(res.data.data.split('#'))
+      setFileList(res.data.data.split('#'))
+      const temp=res.data.data.split('#')
+      const result =rows.map((item,index) =>({
+        ...item,
+        fileName:temp[index]? temp[index] :item.fileName
+      }
+     
+        
+      ))
+      console.log(result)
+      setRowData(result)
+    })
+    .catch(err  =>{
+      console.log(err)
+    })
+  },[])
+  // console.log(filelist,'filelist')
+
   // Drag & Drop JS
   const [fileNames, setFileNames] = React.useState([]);
   const [data, setData] = React.useState([]);
   const handleDrop = (acceptedFiles: any) => {
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
-    console.log(data,'file Details')
+   
+   
   };
-
+  
   const handleDelete = (i: any, chip: any) => {
 
     setTags(tags.filter((tag, index) => index !== chip));
@@ -249,7 +241,30 @@ export default function FileVault() {
       setRowData(newRowData);
     }
   }
+  // console.log(data,'data')
+  // const fs = require(“fs”);
+  // console.log(tags,'tags')
+const handleFileUpload =() =>{
+  const datafile = new FormData()
+  datafile.append('fileupload', data as any )
+  datafile.append('tags',tags as any)
+ const formdata ={
+ 
+ }
+ axios.post('http://localhost:3005/fortis/addfile',datafile) 
+ 
+ .then(response=>{
+   console.log('success')
+   console.log(response.data)
+ })
+ .catch(err=>{
+  console.log(err)
+ })
+}
 
+const handleChange=(e:any)=>{
+console.log(e.target.files[0])
+}
   return (
     <>
       {/* Header HTML Start*/}
@@ -307,10 +322,10 @@ export default function FileVault() {
                     <img src={close_icon} alt="close" />
                   </em>
                   {!data.length ?
-                  <div  className="file-drop-outer" >
+                  <div  className="file-drop-outer"  onChange={handleChange}>
                     <h2 className="h2">Drag or Add Files</h2>
 
-                    <Dropzone onDrop={handleDrop}>
+                    <Dropzone onDrop={handleDrop} >
                       {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps({ className: "file-drop-box" })}>
                           <h2>Add Files</h2>
@@ -352,13 +367,6 @@ export default function FileVault() {
                   </div> }
 
                   
-                 {/* <div>
-                 {fileNames.map((fileName) => (
-            <p key={fileName}>{fileName}</p>
-          ))}
-                 </div> */}
-          
-        
                   <div className="tag-box-outer">
                     <h2 className="h2">Tags</h2>
                     <ChipInput
@@ -374,16 +382,16 @@ export default function FileVault() {
                       UPLOAD
                     </Button>
                     :
-                    <Button variant="contained" color="primary" >
+                    <Button variant="contained" color="primary"  onClick={handleFileUpload}>
                     UPLOAD
                   </Button>
-}
+                  }
                   </div>
                 </div>
               </Modal>
 
               <div className="pagination-wrapper">
-                <p>1-50 of 1005</p>
+                <p>1-{rowData.length}</p>
                 <Pagination count={10} />
               </div>
             </div>
@@ -404,7 +412,7 @@ export default function FileVault() {
                   {rowData.map((row) => (
                     <TableRow>
                       <TableCell>
-                        <div className="table-data">
+                        <div className="table-data has-underline">
                           <em>
                             <img src={file_icon} alt="file" />
                           </em>
