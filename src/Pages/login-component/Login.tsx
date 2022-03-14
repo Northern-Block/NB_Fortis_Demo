@@ -5,7 +5,6 @@ import code_scan from "../../assets/image/code-scan.png";
 import veritx_logo from "../../assets/image/veritx_logo.png";
 import "./login.scss";
 
-import LoginVerification from '../login-verification/LoginVerify'
 export default function Login() {
   const history = useHistory()
   const handleClick =()=>{
@@ -21,7 +20,7 @@ export default function Login() {
             <Link to="/" title="Fortis">
               <img src={fortis_logo} alt="logo" />
             </Link>
-            <p className="h5">Welcome to Fortis!</p>
+            <p className="h5">Welcome to Wayne's World!</p>
             <em className="code-scan">
               <img src={code_scan} alt="scan" />
             </em>
