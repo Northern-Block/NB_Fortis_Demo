@@ -11,7 +11,10 @@ const addFile = mongoose.Schema({
     type:String
   }
      
-  ]
+  ],
+  path:{
+    type:String
+  }
  
 });
 

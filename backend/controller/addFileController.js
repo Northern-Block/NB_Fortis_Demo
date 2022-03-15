@@ -16,7 +16,8 @@ exports.addFileUpload = async (req, res) => {
     if (req.file) {
     
       data.fileupload = req.file.filename;
-      data.tags= req.body.tags
+      data.tags= req.body.tags;
+      data.path=req.file.path
       console.log(req.file.filename,'data has been modifieds')
          
     }
@@ -37,7 +38,7 @@ exports.getAllFile = async (req, res) => {
      
         let fileData =''
         fs.readdir('tmp', (err, files) => {
-            files.forEach(file => {
+           files&&files.length>0 && files.forEach(file => {
               console.log(file);
               fileData=file+ '#'+fileData
            

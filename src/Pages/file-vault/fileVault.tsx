@@ -3,6 +3,7 @@ import Dropzone from "react-dropzone";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
+import { Link ,useHistory} from "react-router-dom";
 import fs from 'fs'
 import {
   Button,
@@ -46,71 +47,32 @@ function createData(
 }
 
 
-const rows = [
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-  {
-    fileName:"File_name_1",
-    owner:"Me",
-    description:"This is a generic item description. Please replace this with a more appro......",
-    lastModified:"25/02/2022  15:01:22",
-    lastModifiedBy:"Me"
-  },
-];
+// const rows = [
+//   {
+//     fileName:"File_name_1",
+//     owner:"Me",
+//     description:"This is a generic item description. Please replace this with a more appro......",
+//     lastModified:"25/02/2022  15:01:22",
+//     lastModifiedBy:"Me"
+//   },
+  // {
+  //   fileName:"File_name_1",
+  //   owner:"Me",
+  //   description:"This is a generic item description. Please replace this with a more appro......",
+  //   lastModified:"25/02/2022  15:01:22",
+  //   lastModifiedBy:"Me"
+  // },
+  // {
+  //   fileName:"File_name_1",
+  //   owner:"Me",
+  //   description:"This is a generic item description. Please replace this with a more appro......",
+  //   lastModified:"25/02/2022  15:01:22",
+  //   lastModifiedBy:"Me"
+  // },
+  
+  
+  
+// ];
 
 // large Modal Style
 const largeModalStyle = {
@@ -135,38 +97,64 @@ const smallModalStyle = {
 export default function FileVault() {
 
   //Dummy File Data 
-  const [ rowData, setRowData ] = useState(rows);
+  
+
+  const [rows,setRows]=useState( [
+    {
+      fileName:"File_name_1",
+      owner:"Me",
+      description:"This is a generic item description. Please replace this with a more appro......",
+      lastModified:"25/02/2022  15:01:22",
+      lastModifiedBy:"Me"
+    }])
+    const [ rowData, setRowData ] = useState(rows);
 
   // file Upload JS
   const [uploadOpen, setUploadOpen] = React.useState(false);
+  const [uploadPopup,setUploadPopup] = React.useState(false)
   const [tags, setTags] = React.useState([]);
+  //onclick file details
+  const [fileDetails,setfileDetails]=useState({} as any)
   const fileUploadOpen = () => setUploadOpen(true);
   const fileUploadClose = () => {setUploadOpen(false); setData([]);}
 
   // File Detail Modal JS
   const [fileOpen, setFileOpen] = React.useState(false);
-  const fileOpenClick = () => setFileOpen(true);
+  const fileOpenClick = (item:any) =>{
+    console.log(item,'value')
+    setfileDetails(item)
+    setFileOpen(true);
+    console.log(fileDetails,'fileDetails')
+  } 
   const fileClose = () => setFileOpen(false);
 
   // Waring Detail Modal JS
   const [warnOpen, setWarnOpen] = React.useState(false);
   const warningOpen = () => setWarnOpen(true);
   const warningClose = () => setWarnOpen(false);
-
+  const history = useHistory()
   // Request Detail Modal JS
   const [requestOpen, setRequestOpen] = React.useState(false);
   const requestOpenClick = () => setRequestOpen(true);
-  const requestCloseClick = () => setRequestOpen(false);
+ 
 
   // File Verify Modal JS
   const [fileVerify, setFileVerify] = React.useState(false);
   const fileVerifyOpen = () => setFileVerify(true);
   const fileVerifyClose = () => setFileVerify(false);
 
+  const requestClosePopup =() => setUploadPopup(true);
+
   const [filelist,setFileList] = React.useState()
   const handleReplace =()=>{
     setUploadOpen(true)
   }
+
+  const requestCloseClick = () => {
+    setRequestOpen(false)
+    fetchFiles()
+    
+    }
   // Progressbar JS
   const [progress, setProgress] = React.useState(0);
   React.useEffect(() => {
@@ -184,26 +172,39 @@ export default function FileVault() {
       clearInterval(timer);
     };
   }, []);
-
-  React.useEffect(()=>{
-    axios.get('http://localhost:3005/fortis/getfile')
+const fetchFiles= () =>{ 
+  
+  axios.get('http://localhost:3005/fortis/getfile')
+  
     .then(res =>{
       console.log(res.data.data.split('#'))
       setFileList(res.data.data.split('#'))
       const temp=res.data.data.split('#')
-      const result =rows.map((item,index) =>({
-        ...item,
-        fileName:temp[index]? temp[index] :item.fileName
-      }
-     
-        
+      temp.pop()
+      console.log(temp,'temp')
+      const result =temp.map((item:any,index:any) =>({
+        // ...item,
+        fileName:temp[index]? temp[index] :item.fileName,
+        owner:rows[0].owner,
+        description:rows[0].description,
+        lastModified:rows[0].lastModified,
+        lastModifiedBy:rows[0].lastModifiedBy
+      }    
       ))
       console.log(result)
-      setRowData(result)
+      setRows(result)
+      setRowData([...result])
+     
+     
     })
     .catch(err  =>{
       console.log(err)
+      
     })
+  
+}
+  React.useEffect(()=>{
+    fetchFiles()
   },[])
   // console.log(filelist,'filelist')
 
@@ -245,20 +246,26 @@ export default function FileVault() {
   // const fs = require(“fs”);
   // console.log(tags,'tags')
 const handleFileUpload =() =>{
+  setFileVerify(true)
   const datafile = new FormData()
-  datafile.append('fileupload', data as any )
+  datafile.append('fileupload', data[0] as any )
   datafile.append('tags',tags as any)
  const formdata ={
  
  }
  axios.post('http://localhost:3005/fortis/addfile',datafile) 
+
  
  .then(response=>{
    console.log('success')
    console.log(response.data)
+   setRequestOpen(true)
+   setUploadOpen(false)
+   setFileVerify(false)
  })
  .catch(err=>{
   console.log(err)
+  setFileVerify(false)
  })
 }
 
@@ -389,6 +396,8 @@ console.log(e.target.files[0])
                   </div>
                 </div>
               </Modal>
+              {/* fileupload message  */}
+              
 
               <div className="pagination-wrapper">
                 <p>1-{rowData.length}</p>
@@ -417,7 +426,7 @@ console.log(e.target.files[0])
                             <img src={file_icon} alt="file" />
                           </em>
                           <span
-                            onClick={fileOpenClick}
+                            onClick={()=>fileOpenClick(row)}
                             onKeyDown={fileOpenClick}
                             role="button"
                             tabIndex={0}
@@ -427,6 +436,85 @@ console.log(e.target.files[0])
                         </div>
                       </TableCell>
 
+
+                      <TableCell>{row.owner}</TableCell>
+                      <TableCell>
+                        <p className="description-message">{row.description}</p>
+                      </TableCell>
+                      <TableCell>{row.lastModified}</TableCell>
+                      <TableCell>
+                        <div className="table-data has-no-cursor">
+                          <em>
+                            <img src={user_icon} alt="user" />
+                          </em>
+                          {row.lastModifiedBy}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Modal
+                        open={uploadPopup}
+                        onClose={requestClosePopup}
+                        aria-labelledby="upload-detail-title"
+                        aria-describedby="upload-detail"
+                        className="modal-outer"
+                      >
+                        <div className="modal-small" style={smallModalStyle}>
+                          <div className="message-box">
+                            <p className="h5">Congratulations</p>
+                            <em>
+                              <img src={request_check} alt="request" />
+                            
+                            </em>
+                           
+                            <p className="h5">Upload Complete</p>
+                           
+                          </div>
+                          <div className="button-combo has-single-button">
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              onClick={requestClosePopup}
+                            >
+                              Close
+                            </Button>
+
+                           
+                          </div>
+                        </div>
+                      </Modal>
+                       {/* file verify Popup HTML Start */}
+
+                       <Modal
+                        open={fileVerify}
+                        onClose={fileVerifyClose}
+                        aria-labelledby="file-verify-title"
+                        aria-describedby="file-verify"
+                        className="modal-outer"
+                      >
+                        <div className="modal-small" style={smallModalStyle}>
+                          <div className="message-box">
+                            <p className="h5">Please Wait</p>
+                            {/* <p className="h5">Congratulations</p> */}
+                            <em>
+                              <img src={loading} alt="loading" />
+                            </em>
+                            {/* <p className="h5">File Requested</p> */}
+                            <p className="h5">Uploading</p>
+                            {/* <p className="h5">Verifying</p> */}
+                            {/* <p className="h5">You have been succussfully Verified</p> */}
+                            {/* <p className="h5">Downloading</p> */}
+                            <LinearProgress variant="determinate" value={progress} />
+                          </div>
+                        </div>
+                      </Modal>
+
+                      {/* file verify Popup HTML end */}
+
+                      
                       <Modal
                         open={fileOpen}
                         onClose={fileClose}
@@ -437,9 +525,10 @@ console.log(e.target.files[0])
                         <div className="modal-small" style={smallModalStyle}>
                           {/* file-detail HTML */}
                           <ul className="file-detail-modal">
-                            <li>
+                           
+                              <li>
                               <p>File Name:</p>
-                              <span>File_Name_1</span>
+                              <span>{fileDetails && fileDetails.fileName }</span>
                             </li>
                             <li>
                               <p>File Owner:</p>
@@ -463,7 +552,9 @@ console.log(e.target.files[0])
                                 ac iaculis lorem, euismod pulvinar sem.{" "}
                               </span>
                             </li>
-                          </ul>
+                           
+                            </ul>
+                            
 
                           <div className="button-combo">
                             <Button
@@ -484,32 +575,7 @@ console.log(e.target.files[0])
                         </div>
                       </Modal>
 
-                      {/* file verify Popup HTML Start */}
-
-                      <Modal
-                        open={fileVerify}
-                        onClose={fileVerifyClose}
-                        aria-labelledby="file-verify-title"
-                        aria-describedby="file-verify"
-                        className="modal-outer"
-                      >
-                        <div className="modal-small" style={smallModalStyle}>
-                          <div className="message-box">
-                            <p className="h5">Please Wait</p>
-                            {/* <p className="h5">Congratulations</p> */}
-                            <em>
-                              <img src={loading} alt="loading" />
-                            </em>
-                            <p className="h5">File Requested</p>
-                            {/* <p className="h5">Verifying</p> */}
-                            {/* <p className="h5">You have been succussfully Verified</p> */}
-                            {/* <p className="h5">Downloading</p> */}
-                            <LinearProgress variant="determinate" value={progress} />
-                          </div>
-                        </div>
-                      </Modal>
-
-                      {/* file verify Popup HTML end */}
+                     
 
                       {/* waring Popup HTML Start */}
                       <Modal
@@ -566,7 +632,8 @@ console.log(e.target.files[0])
                               <img src={request_check} alt="request" />
                               {/* <img src={download_file} alt="download" /> */}
                             </em>
-                            <p className="h5">Request Complete</p>
+                            {/* <p className="h5">Request Complete</p> */}
+                            <p className="h5">Upload Complete</p>
                             {/* <p className="h5">Download Complete</p> */}
                           </div>
                           <div className="button-combo has-single-button">
@@ -589,25 +656,6 @@ console.log(e.target.files[0])
                         </div>
                       </Modal>
                       {/* waring Popup HTML end */}
-
-                      <TableCell>{row.owner}</TableCell>
-                      <TableCell>
-                        <p className="description-message">{row.description}</p>
-                      </TableCell>
-                      <TableCell>{row.lastModified}</TableCell>
-                      <TableCell>
-                        <div className="table-data has-no-cursor">
-                          <em>
-                            <img src={user_icon} alt="user" />
-                          </em>
-                          {row.lastModifiedBy}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
           </div>
         </div>
       </div>
