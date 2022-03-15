@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { loginAction } from './actions/loginAction'
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
+// import { Connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { messaging } from '../../init-fcm';
 import { version } from '../../config';
@@ -9,7 +10,8 @@ import { Link } from "react-router-dom";
 import _ from 'lodash';
 import { toastr } from 'react-redux-toastr';
 import { scanPasswordlessLoginQRCodePage } from '../commonConst';
-import fortis_logo from "../../assets/image/fortis-logo.png";
+// import fortis-logo from '../../as'
+import fortis_logo from "../../assets/image/fortis_logo.png";
 import code_scan from "../../assets/image/code-scan.png";
 import veritx_logo from "../../assets/image/veritx_logo.png";
 import "./login.scss";
@@ -162,40 +164,40 @@ export default class ScanQR extends React.Component<IScanQRProps, IScanQRState> 
 
   public render() {
     const { proofRequestUrl } = this.state;
-/*
-    return (
-      <>
-        <div className="text-center">
-          <h1 className="mb-5 nb-title-700">{scanPasswordlessLoginQRCodePage.WELCOME_MESSAGE}</h1>
-          <div className="card shadow m-auto" style={{ width: '340px' }}>
-            <div className="card-body">
-              {proofRequestUrl == '' ?
-                <>
-                  <div className="content-loader justify-content-center h-100 pt-4">
-                    <span className="mt-7 align-self-start">
-                      <i className="fas fa-3x fa-circle-notch fa-spin"></i>
-                    </span>
-                    <p className='text-warning'>{scanPasswordlessLoginQRCodePage.QR_CODE_WAITING_MESSAGE}</p>
-                  </div>
-                </>
-                :
-                <QRCode value={proofRequestUrl} size={300} />
-              }
-            </div>
-          </div>
-          <div className="mt-3">
-            <h4 className="text-blue">{scanPasswordlessLoginQRCodePage.SCAN_TO_LOGIN}</h4>
-          </div>
-          <div className="mt-3">
-            <a className="nb-link" href='/login'>{scanPasswordlessLoginQRCodePage.BACK_TO_FIRST_TIME_LOGIN_PAGE_LINK}</a>
-          </div>
-          <div>
-            <small className="text-muted">{scanPasswordlessLoginQRCodePage.APPLICATION_VERSION} {version.version}</small>
-          </div>
-        </div>
-      </>
-    );
-*/
+
+    // return (
+    //   <>
+    //     <div className="text-center">
+    //       <h1 className="mb-5 nb-title-700">{scanPasswordlessLoginQRCodePage.WELCOME_MESSAGE}</h1>
+    //       <div className="card shadow m-auto" style={{ width: '340px' }}>
+    //         <div className="card-body">
+    //           {proofRequestUrl == '' ?
+    //             <>
+    //               <div className="content-loader justify-content-center h-100 pt-4">
+    //                 <span className="mt-7 align-self-start">
+    //                   <i className="fas fa-3x fa-circle-notch fa-spin"></i>
+    //                 </span>
+    //                 <p className='text-warning'>{scanPasswordlessLoginQRCodePage.QR_CODE_WAITING_MESSAGE}</p>
+    //               </div>
+    //             </>
+    //             :
+    //             <QRCode value={proofRequestUrl} size={300} />
+    //           }
+    //         </div>
+    //       </div>
+    //       <div className="mt-3">
+    //         <h4 className="text-blue">{scanPasswordlessLoginQRCodePage.SCAN_TO_LOGIN}</h4>
+    //       </div>
+    //       <div className="mt-3">
+    //         <a className="nb-link" href='/login'>{scanPasswordlessLoginQRCodePage.BACK_TO_FIRST_TIME_LOGIN_PAGE_LINK}</a>
+    //       </div>
+    //       <div>
+    //         <small className="text-muted">{scanPasswordlessLoginQRCodePage.APPLICATION_VERSION} {version.version}</small>
+    //       </div>
+    //     </div>
+    //   </>
+    // );
+
 
 		return (
 						<>

@@ -1,5 +1,6 @@
 import { BrowserRouter , Switch , Route } from 'react-router-dom';
 import Login from 'Pages/login-component/Login';
+import ScanQR from 'Pages/login-component/Login'
 import LoginVerification from 'Pages/login-verification/LoginVerify';
 import AddFile  from 'Pages/add-file/addFile';
 import FileVault from 'Pages/file-vault/fileVault';
@@ -15,7 +16,8 @@ const Routings = () => {
 		{/* <Sidebar /> */}
 			<Switch>
 				<Route exact path={'/'}>
-					<Login/>
+					{/* <Login/> */}
+					<ScanQR loginAction={undefined} LoginReducer={undefined} LoaderReducer={undefined}/>
 				</Route>
 
 				<Route exact path={'/login-verify'}>

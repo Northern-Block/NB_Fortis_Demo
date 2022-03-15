@@ -1,7 +1,7 @@
 import { LinearProgress } from "@mui/material";
 import * as React from "react";
 import { Link ,useHistory} from "react-router-dom";
-import fortis_logo from "../../assets/image/fortis-logo.png";
+import fortis_logo from "../../assets/image/fortis_logo.png";
 import lock_icon from "../../assets/image/lock_icon.svg";
 import unlock_icon from "../../assets/image/unlock-icon.svg";
 import error_icon from "../../assets/image/error-icon.svg";
