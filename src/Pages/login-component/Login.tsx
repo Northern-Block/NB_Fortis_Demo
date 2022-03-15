@@ -5,14 +5,26 @@ import { bindActionCreators } from 'redux';
 import { messaging } from '../../init-fcm';
 import { version } from '../../config';
 import { createBrowserHistory } from 'history';
+import { Link } from "react-router-dom";
 import _ from 'lodash';
 import { toastr } from 'react-redux-toastr';
 import { scanPasswordlessLoginQRCodePage } from '../commonConst';
+import fortis_logo from "../../assets/image/fortis-logo.png";
+import code_scan from "../../assets/image/code-scan.png";
+import veritx_logo from "../../assets/image/veritx_logo.png";
+import "./login.scss";
+
 const { detect } = require('detect-browser');
 const browser = detect();
 let QRCode = require('qrcode.react');
 const message: any = messaging;
 const history = createBrowserHistory();
+
+const handleClick =()=>{
+  
+    history.push('/login-verify')
+  //  <LoginVerification/>
+  }
 
 /* Interface for Props variables*/
 export interface IScanQRProps {
@@ -150,7 +162,7 @@ export default class ScanQR extends React.Component<IScanQRProps, IScanQRState> 
 
   public render() {
     const { proofRequestUrl } = this.state;
-
+/*
     return (
       <>
         <div className="text-center">
@@ -183,6 +195,30 @@ export default class ScanQR extends React.Component<IScanQRProps, IScanQRState> 
         </div>
       </>
     );
+*/
+
+		return (
+						<>
+							<div className="wrapper login-page">
+								<div className="login-wrapper">
+									<div className="login-inner" onClick={handleClick}>
+										<Link to="/" title="Fortis">
+											<img src={fortis_logo} alt="logo" />
+										</Link>
+										<p className="h5">Welcome to Fortis!</p>
+										<em className="code-scan">
+											<img src={code_scan} alt="scan" />
+										</em>
+										<p className="h5">Scan QR code to login</p>
+										<Link to="/" className="bottom-logo" title="Veritx">
+											<p>Powered by:</p>
+											<img src={veritx_logo} alt="veritx-logo" />
+										</Link>
+									</div>
+								</div>
+							</div>
+						</>
+		);
   }
 }
 
