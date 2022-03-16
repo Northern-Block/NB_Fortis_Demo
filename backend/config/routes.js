@@ -1,10 +1,10 @@
 const express=require('express')
 const router=express.Router()
-const {addFileUpload ,getAllFile} = require("../controller/addFileController")
+const {addFileUpload ,getAllFile,deleteFile,downloadfile} = require("../controller/addFileController")
 
 const multer = require("multer");
 var fs = require('fs');
-var dir = './tmp/';
+var dir = 'tmp';
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir,{recursive:true});
@@ -25,4 +25,6 @@ const upload = multer({
   });
   router.post("/addfile",upload.single("fileupload"),  addFileUpload );
   router.get("/getfile",  getAllFile );
+  router.post('/deletefile',deleteFile);
+  
   module.exports = router;

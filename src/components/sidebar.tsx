@@ -5,23 +5,25 @@ import veritx_logo from "../assets/image/veritx_logo.png";
 
 export default function Sidebar() {
   const [ index, setIndex ] = useState();
+ 
 
   const toggleTab = (ind:any) =>{
     setIndex(ind);
    
   }
+  
   return (
     <>
       <aside>
-        <Link to="/file-vault" className="logo-desktop" title="Fortis">
-          <img src={sidebar_logo} alt="logo" />
+        <Link to="/" className="logo-desktop" title="Fortis" >
+          <img src={sidebar_logo} alt="logo"  />
         </Link>
 
         <div className="sidebar-menu-main">
           <ul className="menu-block">
             <li>
               <Link to="/file-vault" className={index == 1 ? "active": undefined} title="File Vault" onClick={()=>toggleTab(1)}>
-                File Vault
+              File Repository
               </Link>
             </li>
 
@@ -42,7 +44,7 @@ export default function Sidebar() {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to={`${process.env.PUBLIC_URL}/user-activity`}
                 className={index == 4 ? "active": undefined}
@@ -51,7 +53,7 @@ export default function Sidebar() {
               >
                 User Activity
               </Link>
-            </li>
+            </li> */}
           </ul>
 
           <Link to="/file-vault" className="vertex-logo" title="Veritx">

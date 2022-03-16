@@ -147,3 +147,17 @@
         font-style: italic;
     }
 }
+
+// popover css start
+.MuiPopover-paper {
+    a {
+        display: block;
+        font-size: 15px;
+        font-weight: 400;
+        padding: 15px;
+
+        + a {
+            border-top: 1px solid $greyLightPrimary;
+        }
+    }
+}

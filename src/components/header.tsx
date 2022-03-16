@@ -1,3 +1,4 @@
+import { Popover } from "@material-ui/core";
 import { Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -17,6 +18,20 @@ export default function Header() {
   const headerMenuClose = () => {
     setHeaderMenu(null);
   };
+
+  // header menu JS
+  const [headerSettingMenu, setHeaderSettingMenu] = React.useState<HTMLButtonElement | null>(null);
+
+  const settingMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setHeaderSettingMenu(event.currentTarget);
+  };
+
+  const settingMenuClickClose = () => {
+    setHeaderSettingMenu(null);
+  };
+
+  const open = Boolean(headerSettingMenu);
+  const id = open ? 'setting-menu' : undefined;
 
   return (
     <>
@@ -86,8 +101,25 @@ export default function Header() {
             <ul className="header-menu">
               <li>
                 <Link to="/file-vault" title="Settings">
-                  Settings
+                  <span role="button"
+                    tabIndex={0} aria-describedby={id} onClick={settingMenuClick}>Settings</span>
                 </Link>
+
+                <Popover
+                  id={id}
+                  open={open}
+                  anchorEl={headerSettingMenu}
+                  onClose={settingMenuClickClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                >
+                  <Link to="/file-vault">File Access</Link>
+                  <Link to="/file-vault">Scheduled Scans</Link>
+                  <Link to="/file-vault">Notification groups</Link>
+                  <Link to="/user-activity">User Activity </Link>
+                </Popover>
               </li>
               <li>
                 <Link to="/file-vault" title="Help">
