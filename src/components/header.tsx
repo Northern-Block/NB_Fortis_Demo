@@ -1,9 +1,11 @@
 import { Popover } from "@material-ui/core";
 import { Menu, MenuItem } from "@mui/material";
-import React from "react";
+import React,{useState} from "react";
+import axios from 'axios';
 import { Link } from "react-router-dom";
 import sidebar_logo from "../assets/image/sidebar_logo.png";
 import user_profile from "../assets/image/user_profile.png";
+// import React,  from 'react'
 
 export default function Header() {
   const handleMenuClick = () => {
@@ -12,6 +14,7 @@ export default function Header() {
 
   const [headerMenu, setHeaderMenu] = React.useState<null | HTMLElement>(null);
   const smallMenuOpen = Boolean(headerMenu);
+ 
   const headerMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setHeaderMenu(event.currentTarget);
   };
@@ -32,7 +35,7 @@ export default function Header() {
 
   const open = Boolean(headerSettingMenu);
   const id = open ? 'setting-menu' : undefined;
-
+ 
   return (
     <>
       <header>
@@ -45,7 +48,7 @@ export default function Header() {
               Welcome <span>Kris!</span>
             </h1>
           </div>
-
+   
           <div className="header-right">
             <em
               className="mobile-user-detail"
@@ -61,7 +64,7 @@ export default function Header() {
               <img src={user_profile} alt="user-pic" />
               <span>Welcome Kris!</span>
             </em>
-
+           
             <em className="user-detail" title="User">
               <img src={user_profile} alt="user-pic" />
             </em>

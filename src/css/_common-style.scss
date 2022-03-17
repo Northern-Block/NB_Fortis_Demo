@@ -467,6 +467,13 @@ em {
   line-height: 0;
   font-style: normal;
 }
+.text-dir {
+  color: $blackPrimary !important;
+}
+.text-green {
+  color: $darkGreen;
+  margin-bottom: 8px;
+}
 
 input[type="text"],
 input[type="email"],

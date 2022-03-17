@@ -26,5 +26,6 @@ const upload = multer({
   router.post("/addfile",upload.single("fileupload"),  addFileUpload );
   router.get("/getfile",  getAllFile );
   router.post('/deletefile',deleteFile);
+  router.post('/downloadfile',downloadfile);
   
   module.exports = router;

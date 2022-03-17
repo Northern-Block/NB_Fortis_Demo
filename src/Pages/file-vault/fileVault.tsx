@@ -35,11 +35,10 @@ import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
 import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
-// import FileSaver from 'file-saver';
-// import { saveAs } from "file-saver";
+
 import { saveAs } from "file-saver"
 import { Base64 } from 'js-base64';
-// const saveAs = require('file-saver');
+
 
 // Table Data
 function createData(
@@ -92,6 +91,8 @@ export default function FileVault() {
   // file Upload JS
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [uploadPopup, setUploadPopup] = React.useState(false)
+  const [time,setTime]=useState('')
+  const [path,setPath]=useState('');
   const [tags, setTags] = React.useState([]);
   //onclick file details
   const [fileDetails, setfileDetails] = useState({} as any)
@@ -137,14 +138,6 @@ export default function FileVault() {
     // setRequestOpen(true);
   }
 
-
-  
-
-  const fileVerifyOpen = () => {
-
-
-  }
-
   // File Verify Modal JS
   const [fileVerify, setFileVerify] = React.useState(false);
   
@@ -186,6 +179,7 @@ export default function FileVault() {
       .then(res => {
         console.log(res.data.data.split('#'))
         setFileList(res.data.data.split('#'))
+        setPath(res.data.filePath)
         const filePath = res.data.filePath
         const temp = res.data.data.split('#')
         temp.pop()
@@ -213,9 +207,16 @@ export default function FileVault() {
 
   }
   React.useEffect(() => {
+    if(time){
+      setTime(new Date().toLocaleString() + "")
+    }
+  }, [rowData.length])
+  
+  React.useEffect(() => {
+    setTime(new Date().toLocaleString() + "")
     fetchFiles()
   }, [])
-  // console.log(filelist,'filelist')
+  
 
   // Drag & Drop JS
   const [fileNames, setFileNames] = React.useState([]);
@@ -251,9 +252,7 @@ export default function FileVault() {
       setRowData(newRowData);
     }
   }
-  // console.log(data,'data')
-  // const fs = require(“fs”);
-  // console.log(tags,'tags')
+
   const handleFileUpload = () => {
     setFileVerify(true)
     const datafile = new FormData()
@@ -265,7 +264,7 @@ export default function FileVault() {
 
 
       .then(response => {
-        console.log('success')
+       
         console.log(response.data)
         setRequestOpen(true)
         setUploadOpen(false)
@@ -276,7 +275,39 @@ export default function FileVault() {
         setFileVerify(false)
       })
   }
+ 
+  const convertBase64ToFile = (base64String: any, fileName: any) => {
+    
+    let bstr = Base64.atob(base64String);
+    let n = bstr.length;
+    let uint8Array = new Uint8Array(n);
+    while (n--) {
+      uint8Array[n] = bstr.charCodeAt(n);
+    }
+    // let file = new File([uint8Array], fileName, { type: mime });
+    let file = new File([uint8Array], fileName);
+    return file;
+  };
 
+  const fileVerifyOpen = () => {
+    const body = {
+      path: fileDetails?.filePath
+    }
+    console.log(body)
+    axios.post("http://localhost:3005/fortis/downloadfile", body)
+      .then(function (response) {
+        console.log(response.data)
+        let file = convertBase64ToFile(response.data, fileDetails.fileName);
+        saveAs(file, fileDetails.fileName);
+        setFileOpen(false);
+      })
+
+      .catch(err => {
+        console.log(err)
+
+      })
+
+  }
   const handleChange = (e: any) => {
     console.log(e.target.files[0])
   }
@@ -293,6 +324,8 @@ export default function FileVault() {
         <div className="main-content file-vault">
           <div className="file-search">
             <div className="search-left">
+            <p className="text-dir">{`File Directory ${path} is being monitoried`}</p>
+            
               <p>Select Files to request</p>
               <TextField
                 fullWidth
@@ -312,6 +345,7 @@ export default function FileVault() {
             </div>
 
             <div className="search-right">
+              <p className="text-green">Files Last Scanned {time}</p>
               <Button variant="outlined" onClick={fileUploadOpen}>
                 Click or Drag to Add New File
                 <em>

@@ -59,7 +59,28 @@ exports.getAllFile = async (req, res) => {
       .json({ error: "Something went wrong", message: error.message });
   }
 };
+exports.downloadfile = async (req, res) => {
+  try {
+    console.log('here')
+    function base64_encode(file) {
+      // read binary data
+      var bitmap = fs.readFileSync(file);
+      // convert binary data to base64 encoded string
+      return new Buffer(bitmap).toString('base64');
+  }
 
+    const file = req.body.path
+    const result=  base64_encode(file)
+    // console.log(result)
+    res.send(result); // Set disposition and send it.
+
+  }
+  catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Something went wrong', message: error.message });
+  }
+}
 
 exports.deleteFile = async (req, res) => {
   try {
