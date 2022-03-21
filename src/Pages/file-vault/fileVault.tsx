@@ -48,7 +48,7 @@ function createData(
   lastModified: string,
   lastModifiedBy: string
 ) {
-  return { fileName, owner, description, lastModified, lastModifiedBy };
+  return { fileName, owner,  lastModified, lastModifiedBy };
 }
 
 
@@ -81,7 +81,7 @@ export default function FileVault() {
     {
       fileName: "File_name_1",
       owner: "Me",
-      description: "This is a generic item description. Please replace this with a more appro......",
+      // description: "This is a generic item description. Please replace this with a more appro......",
       lastModified: "25/02/2022  15:01:22",
       lastModifiedBy: "Me",
       filePath: "tem\\"
@@ -188,7 +188,7 @@ export default function FileVault() {
           // ...item,
           fileName: item,
           owner: rows[0].owner,
-          description: rows[0].description,
+          // description: rows[0].description,
           lastModified: rows[0].lastModified,
           lastModifiedBy: rows[0].lastModifiedBy,
           filePath: filePath + item
@@ -454,7 +454,7 @@ export default function FileVault() {
                   <TableRow>
                     <TableCell>File Name</TableCell>
                     <TableCell>Owner</TableCell>
-                    <TableCell>Description</TableCell>
+                    {/* <TableCell>Description</TableCell> */}
                     <TableCell>Last Modified</TableCell>
                     <TableCell>Last Modified by</TableCell>
                   </TableRow>
@@ -483,9 +483,9 @@ export default function FileVault() {
 
 
                       <TableCell>{row.owner}</TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <p className="description-message">{row.description}</p>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>{row.lastModified}</TableCell>
                       <TableCell>
                         <div className="table-data has-no-cursor">

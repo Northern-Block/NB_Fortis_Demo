@@ -45,12 +45,12 @@ export default function Header() {
               <img src={sidebar_logo} alt="logo" />
             </Link>
             <h1>
-              Welcome <span>Kris!</span>
+              {/* Welcome <span>Kris!</span> */}
             </h1>
           </div>
    
           <div className="header-right">
-            <em
+            {/* <em
               className="mobile-user-detail"
               title="User"
               onClick={headerMenuOpen}
@@ -62,12 +62,12 @@ export default function Header() {
               tabIndex={0}
             >
               <img src={user_profile} alt="user-pic" />
-              <span>Welcome Kris!</span>
-            </em>
+              {/* <span>Welcome Kris!</span> */}
+            {/* </em>  */}
            
-            <em className="user-detail" title="User">
+            {/* <em className="user-detail" title="Users">
               <img src={user_profile} alt="user-pic" />
-            </em>
+            </em> */}
 
             <Menu
               id="header-menu"
@@ -118,10 +118,11 @@ export default function Header() {
                     horizontal: 'left',
                   }}
                 >
-                  <Link to="/file-vault">File Access</Link>
-                  <Link to="/file-vault">Scheduled Scans</Link>
-                  <Link to="/file-vault">Notification groups</Link>
+                  {/* <Link to="/file-vault">File Access</Link> */}
+                  {/* <Link to="/file-vault">Scheduled Scans</Link> */}
                   <Link to="/user-activity">User Activity </Link>
+                  <Link to="/file-vault">Notifications</Link>
+                  
                 </Popover>
               </li>
               <li>
