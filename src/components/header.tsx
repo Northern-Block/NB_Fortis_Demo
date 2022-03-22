@@ -120,8 +120,9 @@ export default function Header() {
                 >
                   {/* <Link to="/file-vault">File Access</Link> */}
                   {/* <Link to="/file-vault">Scheduled Scans</Link> */}
-                  <Link to="/user-activity">User Activity </Link>
                   <Link to="/file-vault">Notifications</Link>
+                  <Link to="/user-activity">User Activity </Link>
+                 
                   
                 </Popover>
               </li>

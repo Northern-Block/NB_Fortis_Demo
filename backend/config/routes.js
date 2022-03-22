@@ -4,7 +4,9 @@ const {addFileUpload ,getAllFile,deleteFile,downloadfile} = require("../controll
 
 const multer = require("multer");
 var fs = require('fs');
-var dir = 'tmp';
+const config=require('config')
+const path=config.get('directoryPath')
+var dir = path;
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir,{recursive:true});

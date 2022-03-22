@@ -98,7 +98,7 @@ export default function Update() {
                   <TableRow>
                     <TableCell>File Name</TableCell>
                     <TableCell>Owner</TableCell>
-                    <TableCell>Description</TableCell>
+                    {/* <TableCell>Description</TableCell> */}
                     <TableCell>Last Modified</TableCell>
                     <TableCell>Last Modified by</TableCell>
                   </TableRow>
@@ -115,15 +115,15 @@ export default function Update() {
                         </div>
                       </TableCell>
                       <TableCell>{row.owner}</TableCell>
-                      <TableCell>
-                        <p className="description-message">{row.description}</p>
-                      </TableCell>
+                      {/* <TableCell> */}
+                        {/* <p className="description-message">{row.description}</p> */}
+                      {/* </TableCell> */}
                       <TableCell>{row.lastModified}</TableCell>
                       <TableCell>
                         <div className="table-data has-no-cursor">
-                          <em>
+                          {/* <em>
                             <img src={user_icon} alt="user" />
-                          </em>
+                          </em> */}
                           {row.lastModifiedBy}
                         </div>
                       </TableCell>
@@ -142,7 +142,7 @@ export default function Update() {
                   <TableRow>
                     <TableCell>File Name</TableCell>
                     <TableCell>Owner</TableCell>
-                    <TableCell>Description</TableCell>
+                    {/* <TableCell>Description</Tab/leCell> */}
                     <TableCell>Last Modified</TableCell>
                     <TableCell>Last Modified by</TableCell>
                   </TableRow>
@@ -159,15 +159,15 @@ export default function Update() {
                         </div>
                       </TableCell>
                       <TableCell>{row.owner}</TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <p className="description-message">{row.description}</p>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>{row.lastModified}</TableCell>
                       <TableCell>
                         <div className="table-data has-no-cursor">
-                          <em>
+                          {/* <em>
                             <img src={user_icon} alt="user" />
-                          </em>
+                          </em> */}
                           {row.lastModifiedBy}
                         </div>
                       </TableCell>

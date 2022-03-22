@@ -2,16 +2,26 @@ const addFile = require("../model/addFile");
 const _ = require("lodash");
 const express = require("express");
 var fs = require('fs');
+const config=require('config')
+const path=config.get('directoryPath')
 
 const app = express();
 // let dir ='./tmp/vertix'
-var dir = 'tmp';
+var dir = path;
+
+fs.watch(dir, (eventType, filename) => {
+  console.log("--------------------------!");
+  console.log("\nThe file", filename, "was modified!");
+  
+  console.log("The type of change was:", eventType);
+});
 
 exports.addFileUpload = async (req, res) => {
   try {
     // if (!fs.existsSync(dir)){
     //     fs.mkdirSync(dir,{recursive:true});
     // }
+
     const data = req.body;
 
     if (req.file) {
@@ -19,7 +29,7 @@ exports.addFileUpload = async (req, res) => {
       data.fileupload = req.file.filename;
       data.tags = req.body.tags;
       data.path = req.file.path
-      console.log(req.file.filename, 'data has been modifieds')
+      // console.log(req.file.filename, 'data has been modifieds')
 
     }
 
@@ -27,7 +37,7 @@ exports.addFileUpload = async (req, res) => {
     // const result = await newStore.save();
     return res.status(201).json({ error: "", data });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res
       .status(500)
       .json({ error: "Something went wrong", message: error.message });
@@ -43,7 +53,7 @@ exports.getAllFile = async (req, res) => {
 
       files && files.length > 0 && files.forEach(file => {
 
-        console.log(files);
+        // console.log(files);
         fileData = file + '#' + fileData
         // filePath= dir+'\\'+file+'#'+filePath
 
@@ -53,7 +63,7 @@ exports.getAllFile = async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res
       .status(500)
       .json({ error: "Something went wrong", message: error.message });
@@ -61,7 +71,7 @@ exports.getAllFile = async (req, res) => {
 };
 exports.downloadfile = async (req, res) => {
   try {
-    console.log('here')
+    // console.log('here')
     function base64_encode(file) {
       // read binary data
       var bitmap = fs.readFileSync(file);
@@ -75,6 +85,7 @@ exports.downloadfile = async (req, res) => {
     res.send(result); // Set disposition and send it.
 
   }
+
   catch (error) {
     return res
       .status(500)
@@ -107,4 +118,5 @@ exports.deleteFile = async (req, res) => {
 };
 
 
+exports.path = `${__dirname}`;
 exports.path = `${__dirname}`;

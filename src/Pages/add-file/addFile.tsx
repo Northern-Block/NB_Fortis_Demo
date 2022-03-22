@@ -219,7 +219,7 @@ const AddFile = () => {
   const handleDrop = (acceptedFiles: any) => {
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
-    console.log(data,'file Details')
+    // console.log(data,'file Details')
   };
 
   const handleDelete = (i: any, chip: any) => {
@@ -232,7 +232,7 @@ const AddFile = () => {
   };
 
   const handleTextChange = (e: any) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     setSearchterm(e.target.value)
     // {data
     //   .filter((val) => {

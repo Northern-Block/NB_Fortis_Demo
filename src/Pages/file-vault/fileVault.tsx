@@ -102,10 +102,10 @@ export default function FileVault() {
   // File Detail Modal JS
   const [fileOpen, setFileOpen] = React.useState(false);
   const fileOpenClick = (item: any) => {
-    console.log(item, 'value')
+    // //console.log(item, 'value')
     setfileDetails(item)
     setFileOpen(true);
-    console.log(fileDetails, 'fileDetails')
+    //console.log(fileDetails, 'fileDetails')
   }
   const fileClose = () => setFileOpen(false);
 
@@ -123,17 +123,17 @@ export default function FileVault() {
     const body = {
       path: fileDetails?.filePath
     }
-    console.log(body, 'body')
+    //console.log(body, 'body')
     axios.post('http://localhost:3005/fortis/deletefile', body as any)
       .then(res => {
-        console.log(res.data, 'dd')
+        //console.log(res.data, 'dd')
         const filteredData = rowData.filter(item => item.filePath != res.data.deletedPath as any)
         setRowData(filteredData)
         setRequestOpen(true)
         setWarnOpen(false)
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
       })
     // setRequestOpen(true);
   }
@@ -177,13 +177,13 @@ export default function FileVault() {
     axios.get('http://localhost:3005/fortis/getfile')
 
       .then(res => {
-        console.log(res.data.data.split('#'))
+        //console.log(res.data.data.split('#'))
         setFileList(res.data.data.split('#'))
         setPath(res.data.filePath)
         const filePath = res.data.filePath
         const temp = res.data.data.split('#')
         temp.pop()
-        console.log(temp, 'temp')
+        //console.log(temp, 'temp')
         const result = temp.map((item: any, index: any) => ({
           // ...item,
           fileName: item,
@@ -194,14 +194,14 @@ export default function FileVault() {
           filePath: filePath + item
         }
         ))
-        console.log(result)
+        //console.log(result)
         setRows(result)
         setRowData([...result])
 
 
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
 
       })
 
@@ -257,7 +257,7 @@ export default function FileVault() {
     setFileVerify(true)
     const datafile = new FormData()
     datafile.append('fileupload', data[0] as any)
-    console.log(data[0])
+    //console.log(data[0])
     datafile.append('tags', tags as any)
 
     axios.post('http://localhost:3005/fortis/addfile', datafile)
@@ -265,13 +265,13 @@ export default function FileVault() {
 
       .then(response => {
        
-        console.log(response.data)
+        //console.log(response.data)
         setRequestOpen(true)
         setUploadOpen(false)
         setFileVerify(false)
       })
       .catch(err => {
-        console.log(err)
+        //console.log(err)
         setFileVerify(false)
       })
   }
@@ -293,23 +293,23 @@ export default function FileVault() {
     const body = {
       path: fileDetails?.filePath
     }
-    console.log(body)
+    //console.log(body)
     axios.post("http://localhost:3005/fortis/downloadfile", body)
       .then(function (response) {
-        console.log(response.data)
+        //console.log(response.data)
         let file = convertBase64ToFile(response.data, fileDetails.fileName);
         saveAs(file, fileDetails.fileName);
         setFileOpen(false);
       })
 
       .catch(err => {
-        console.log(err)
+        //console.log(err)
 
       })
 
   }
   const handleChange = (e: any) => {
-    console.log(e.target.files[0])
+    //console.log(e.target.files[0])
   }
   return (
     <>
@@ -489,9 +489,9 @@ export default function FileVault() {
                       <TableCell>{row.lastModified}</TableCell>
                       <TableCell>
                         <div className="table-data has-no-cursor">
-                          <em>
+                          {/* <em>
                             <img src={user_icon} alt="user" />
-                          </em>
+                          </em> */}
                           {row.lastModifiedBy}
                         </div>
                       </TableCell>
