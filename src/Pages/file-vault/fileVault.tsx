@@ -35,9 +35,11 @@ import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
 import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
+import socketIOClient from "socket.io-client";
 
 import { saveAs } from "file-saver"
 import { Base64 } from 'js-base64';
+// import { setInterval } from "timers";
 
 
 // Table Data
@@ -206,6 +208,20 @@ export default function FileVault() {
       })
 
   }
+  // React.useEffect(()=>{
+  //   const intervalCall = setInterval(() => {
+  //     fetchFiles()
+  //   }, 10000);
+  //   return () => {
+  //     // clean up
+  //     clearInterval(intervalCall);
+  //   };
+  // },[])
+
+  // setInterval(()=>{
+  //   console.log('set timer')
+  //   fetchFiles()
+  // },2000)
   React.useEffect(() => {
     if(time){
       setTime(new Date().toLocaleString() + "")
@@ -216,7 +232,16 @@ export default function FileVault() {
     setTime(new Date().toLocaleString() + "")
     fetchFiles()
   }, [])
+ const [socket, setSocket] = useState<any>(null);
   
+  React.useEffect(() => {
+    const newSocket:any = socketIOClient(`http://${window.location.hostname}:3005`);
+    console.log(newSocket,'new Socket')
+    // setSocket(newSocket);
+    return () => newSocket.close();
+  }, []);
+  
+
 
   // Drag & Drop JS
   const [fileNames, setFileNames] = React.useState([]);

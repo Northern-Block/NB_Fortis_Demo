@@ -14,6 +14,9 @@ const addFile = mongoose.Schema({
   ],
   path:{
     type:String
+  },
+  status:{
+    type:Boolean
   }
  
 });

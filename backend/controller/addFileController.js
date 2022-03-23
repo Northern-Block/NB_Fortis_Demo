@@ -1,20 +1,62 @@
 const addFile = require("../model/addFile");
 const _ = require("lodash");
 const express = require("express");
+const chokidar = require('chokidar');
 var fs = require('fs');
-const config=require('config')
-const path=config.get('directoryPath')
+const config = require('config')
+const path = config.get('directoryPath')
 
 const app = express();
 // let dir ='./tmp/vertix'
 var dir = path;
+let message = ""
 
-fs.watch(dir, (eventType, filename) => {
-  console.log("--------------------------!");
-  console.log("\nThe file", filename, "was modified!");
-  
-  console.log("The type of change was:", eventType);
+// exports.fileWatcher = async (req, res) => {
+//   try {
+//     const watcher = chokidar.watch(dir, {
+//       ignored: /(^|[\/\\])\../, // ignore dotfiles
+//       persistent: true,
+//       ignoreInitial: true
+//     });
+
+//     let status = false
+//     // watcher
+//     //   .on('all',  path => {
+//     //    status=true
+//     //   }  )
+//     //   if(status===true){
+//     //     return res.status(201).json({ path:path,message:'Added' })
+//     //   }
+//     //   else{
+//     //     return res.status(201).json({ path:path,message:'Not Changed' })
+//     //   }
+//     watcher
+//       .on('add', path => { return res.status(201).json({ path: path, message: 'Added' }) })
+//       .on('change', path => { return res.status(201).json({ path: path, message: 'Changed' }) })
+
+//       .on('unlink', path => { return res.status(201).json({ path: path, message: 'Removed' }) })
+
+
+//   }
+//   catch (error) {
+//     // console.log(error);
+//     return res
+//       .status(500)
+//       .json({ error: "Something went wrong", message: error.message });
+//   }
+// }
+// .................
+const watcher = chokidar.watch(dir, {
+  ignored: /(^|[\/\\])\../, // ignore dotfiles
+  // persistent: false,
+  ignoreInitial:true
 });
+
+
+watcher.on('add', path => console.log('added',dir,path))
+  .on('change', path => console.log('changed',dir,path))
+  .on('unlink', path => console.log('removed',dir,path));
+
 
 exports.addFileUpload = async (req, res) => {
   try {
@@ -29,12 +71,11 @@ exports.addFileUpload = async (req, res) => {
       data.fileupload = req.file.filename;
       data.tags = req.body.tags;
       data.path = req.file.path
-      // console.log(req.file.filename, 'data has been modifieds')
+      
 
     }
 
-    // const newStore = new addFile(data);
-    // const result = await newStore.save();
+   
     return res.status(201).json({ error: "", data });
   } catch (error) {
     // console.log(error);
@@ -53,7 +94,7 @@ exports.getAllFile = async (req, res) => {
 
       files && files.length > 0 && files.forEach(file => {
 
-        // console.log(files);
+      
         fileData = file + '#' + fileData
         // filePath= dir+'\\'+file+'#'+filePath
 
@@ -77,10 +118,10 @@ exports.downloadfile = async (req, res) => {
       var bitmap = fs.readFileSync(file);
       // convert binary data to base64 encoded string
       return new Buffer(bitmap).toString('base64');
-  }
+    }
 
     const file = req.body.path
-    const result=  base64_encode(file)
+    const result = base64_encode(file)
     // console.log(result)
     res.send(result); // Set disposition and send it.
 
@@ -109,7 +150,7 @@ exports.deleteFile = async (req, res) => {
     }
 
     fs.unlink(req.body.path, resultHandler);
-    
+
   } catch (error) {
     return res
       .status(500)

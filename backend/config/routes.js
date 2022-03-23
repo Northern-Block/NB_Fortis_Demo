@@ -1,6 +1,6 @@
 const express=require('express')
 const router=express.Router()
-const {addFileUpload ,getAllFile,deleteFile,downloadfile} = require("../controller/addFileController")
+const {addFileUpload ,getAllFile,deleteFile,downloadfile,} = require("../controller/addFileController")
 
 const multer = require("multer");
 var fs = require('fs');
@@ -29,5 +29,6 @@ const upload = multer({
   router.get("/getfile",  getAllFile );
   router.post('/deletefile',deleteFile);
   router.post('/downloadfile',downloadfile);
+  // router.get('/watcherfile',fileWatcher);
   
   module.exports = router;
