@@ -1,0 +1,128 @@
+@import "../../App.scss";
+
+.main-content {
+  &.file-vault {
+    padding: 210px 0 0 260px;
+
+    @include bp('xmd') {
+      padding: 210px 0 0 0;
+    }
+
+    @include bp('xs') {
+      padding: 310px 0 0 0;
+    }
+
+    .file-search {
+      @include justify-content(space-between);
+      @include align-items(center);
+
+      @include bp('xs') {
+        @include flex-direction(column);
+        @include align-items(flex-start);
+      }
+
+      .search-left {
+
+        @include bp('xs') {
+          width: 100%;
+          margin-bottom: 15px;
+        }
+
+        p {
+          color: $blueMain;
+          margin-bottom: 10px;
+        }
+        .css-nzinn5-MuiContainer-root {
+            padding-top: 120px;
+        }
+        .MuiFormControl-fullWidth {
+          width: 320px;
+          max-width: 100%;
+
+          @include bp('xs') {
+            width: 100%;
+          }
+
+          .MuiInputLabel-filled {
+            @include transform(translate(12px, 10px) scale(1));
+            font-size: 13px;
+            font-weight: 400;
+            color: $blackPrimary;
+
+            &.MuiInputLabel-shrink {
+              display: none;
+            }
+          }
+
+          .MuiFilledInput-root {
+            background-color: $greyLightPrimary;
+            @include border-radius(2px);
+
+            &.MuiFilledInput-underline {
+
+              &:before,
+              &:after {
+                border: 0;
+              }
+            }
+
+            .MuiFilledInput-input {
+              padding: 8px 12px;
+            }
+          }
+
+          em {
+            cursor: pointer;
+          }
+        }
+      }
+
+      .search-right {
+        
+        @include bp('xs') {
+          width: 100%;
+          text-align: center;
+        }
+
+        .pagination-wrapper {
+          @include flexbox();
+          @include align-items(center);
+          @include justify-content(flex-end);
+          margin-top: 10px;
+
+          @include bp('xs') {
+            @include justify-content(center);
+          }
+
+          p {
+            color: $black;
+            font-weight: 300;
+            font-size: 13px;
+            margin-right: 41px;
+
+            @include bp('xs') {
+              margin-right: 15px;
+            }
+          }
+
+          .MuiPaginationItem-root {
+            display: none;
+
+            &.MuiPaginationItem-previousNext {
+              min-width: 30px;
+              height: 30px;
+              display: block;
+              opacity: 1;
+  
+              svg {
+                width: 30px;
+                height: 30px;
+                fill: $black;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

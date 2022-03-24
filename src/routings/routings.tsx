@@ -7,6 +7,7 @@ import Update from 'Pages/update-files/Update';
 import Modify from 'Pages/modify-files/Modify';
 import Header from 'components/header';
 import Sidebar from 'components/sidebar';
+import Notification from 'Pages/notification/notification';
 
 const Routings = () => {
 	return(<>
@@ -15,7 +16,10 @@ const Routings = () => {
 		{/* <Sidebar /> */}
 			<Switch>
 				<Route exact path={'/'}>
-					<Login/>
+				<Header/>
+				<Sidebar />
+				<FileVault/>
+					{/* <Login/> */}
 				</Route>
 
 				<Route exact path={'/login-verify'}>
@@ -27,6 +31,13 @@ const Routings = () => {
 				<Sidebar />
 					<FileVault/>
 				</Route>
+
+				<Route exact path={'/notification'}>
+				<Header/>
+				<Sidebar />
+					<Notification/>
+				</Route>
+				
 				
 				<Route exact path={'/my-files'}>
 				<Header/>

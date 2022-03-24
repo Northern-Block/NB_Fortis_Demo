@@ -35,10 +35,14 @@ import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
 import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
-import socketIOClient from "socket.io-client";
+
 
 import { saveAs } from "file-saver"
 import { Base64 } from 'js-base64';
+import socketIOClient from "socket.io-client";
+import { debug } from "console";
+// import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:3005";
 // import { setInterval } from "timers";
 
 
@@ -50,7 +54,7 @@ function createData(
   lastModified: string,
   lastModifiedBy: string
 ) {
-  return { fileName, owner,  lastModified, lastModifiedBy };
+  return { fileName, owner, lastModified, lastModifiedBy };
 }
 
 
@@ -72,6 +76,7 @@ const smallModalStyle = {
   transform: "translate(-50%, -50%)",
   width: 330,
   borderRadius: 4,
+  overflowX: "scroll" as "scroll"
 };
 
 export default function FileVault() {
@@ -89,12 +94,15 @@ export default function FileVault() {
       filePath: "tem\\"
     }])
   const [rowData, setRowData] = useState(rows);
+  const [response, setResponse] = useState("");
+
+
 
   // file Upload JS
   const [uploadOpen, setUploadOpen] = React.useState(false);
   const [uploadPopup, setUploadPopup] = React.useState(false)
-  const [time,setTime]=useState('')
-  const [path,setPath]=useState('');
+  const [time, setTime] = useState('')
+  const [path, setPath] = useState('');
   const [tags, setTags] = React.useState([]);
   //onclick file details
   const [fileDetails, setfileDetails] = useState({} as any)
@@ -110,6 +118,15 @@ export default function FileVault() {
     //console.log(fileDetails, 'fileDetails')
   }
   const fileClose = () => setFileOpen(false);
+
+  // React.useEffect(() => {
+  //   const socket = socketIOClient(ENDPOINT);
+  //   socket.on("FromAPI", data => {
+  //     console.log(data,'datas')
+  //     setResponse(data);
+  //   });
+  // }, []);
+
 
   // Waring Detail Modal JS
   const [warnOpen, setWarnOpen] = React.useState(false);
@@ -142,7 +159,7 @@ export default function FileVault() {
 
   // File Verify Modal JS
   const [fileVerify, setFileVerify] = React.useState(false);
-  
+
   const fileVerifyClose = () => setFileVerify(false);
 
   const requestClosePopup = () => setUploadPopup(true);
@@ -199,48 +216,25 @@ export default function FileVault() {
         //console.log(result)
         setRows(result)
         setRowData([...result])
-
-
       })
       .catch(err => {
         //console.log(err)
-
       })
 
   }
-  // React.useEffect(()=>{
-  //   const intervalCall = setInterval(() => {
-  //     fetchFiles()
-  //   }, 10000);
-  //   return () => {
-  //     // clean up
-  //     clearInterval(intervalCall);
-  //   };
-  // },[])
-
-  // setInterval(()=>{
-  //   console.log('set timer')
-  //   fetchFiles()
-  // },2000)
+   
   React.useEffect(() => {
-    if(time){
-      setTime(new Date().toLocaleString() + "")
-    }
-  }, [rowData.length])
-  
-  React.useEffect(() => {
-    setTime(new Date().toLocaleString() + "")
     fetchFiles()
   }, [])
- const [socket, setSocket] = useState<any>(null);
-  
-  React.useEffect(() => {
-    const newSocket:any = socketIOClient(`http://${window.location.hostname}:3005`);
-    console.log(newSocket,'new Socket')
-    // setSocket(newSocket);
-    return () => newSocket.close();
-  }, []);
-  
+   const [socket, setSocket] = useState<any>(null);
+    React.useEffect(() => {
+      const newSocket:any = socketIOClient(`http://${window.location.hostname}:3005`);
+      console.log(newSocket,'new Socket')
+      newSocket.on('message', (data :  any)=> {
+      console.log("Recieved this from the backend: " + data);
+      });
+      return () => newSocket.close();
+    }, [setSocket]);
 
 
   // Drag & Drop JS
@@ -249,8 +243,6 @@ export default function FileVault() {
   const handleDrop = (acceptedFiles: any) => {
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
-
-
   };
 
   const handleDelete = (i: any, chip: any) => {
@@ -289,7 +281,7 @@ export default function FileVault() {
 
 
       .then(response => {
-       
+
         //console.log(response.data)
         setRequestOpen(true)
         setUploadOpen(false)
@@ -300,9 +292,9 @@ export default function FileVault() {
         setFileVerify(false)
       })
   }
- 
+
   const convertBase64ToFile = (base64String: any, fileName: any) => {
-    
+
     let bstr = Base64.atob(base64String);
     let n = bstr.length;
     let uint8Array = new Uint8Array(n);
@@ -349,9 +341,11 @@ export default function FileVault() {
         <div className="main-content file-vault">
           <div className="file-search">
             <div className="search-left">
-            <p className="text-dir">{`File Directory ${path} is being monitoried`}</p>
-            
-              <p>Select Files to request</p>
+
+
+              <p>Select a file to view additional details.
+                <br />
+                If a file is highlighted in red, immediate attention is required.</p>
               <TextField
                 fullWidth
                 label="Search File"
@@ -368,9 +362,10 @@ export default function FileVault() {
                 variant="filled"
               />
             </div>
+            <p className="text-dir">{`File Directory ${path} is being monitoried`}</p>
 
             <div className="search-right">
-              <p className="text-green">Files Last Scanned {time}</p>
+              {/* <p className="text-green">Files Last Scanned {time}</p> */}
               <Button variant="outlined" onClick={fileUploadOpen}>
                 Click or Drag to Add New File
                 <em>
@@ -591,6 +586,7 @@ export default function FileVault() {
               aria-labelledby="file-detail-title"
               aria-describedby="file-detail"
               className="modal-outer"
+            // style={overflow-x:scroll}
             >
               <div className="modal-small" style={smallModalStyle}>
                 {/* file-detail HTML */}
@@ -623,7 +619,19 @@ export default function FileVault() {
                     </span>
                   </li>
 
+
                 </ul>
+                <p>Initial Entry</p>
+                <span>
+                  Version: 0.0.1
+                  Mac: e2708e6a77486086aa9c16d6432db385
+                  Key Type: ed25519
+                  Initial Key: b542dc7fd0bfcbbfae78320e72975866674550fb73a6772533a48b82167ef1d0
+                  Signature: f06638a37e55184d23fabf85623ee3f2aee5939e36fbbb115ec1be6a06d4e3ce1b4e2188bf76bfa5f91396bcfe0c98940dbc1555db384182afce196b6cd35209
+                  Mac: 8917f46a7ee6b5d23585292820d67626
+                  Signature: a919184f89df08e6466250911ba835b24f9c7e972da558293acfc6753a1d824181577353a66db4b8a4811dd0a784237ceed4f6ad4726dce743cd19aa3d3b180d
+                  Entry Hash: d6b3d19472d5e700dde8f163f303688e740ba75e044762580ae23b1f3f6c24a1
+                </span>
 
 
                 <div className="button-combo">
