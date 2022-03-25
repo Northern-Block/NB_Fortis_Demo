@@ -19,7 +19,7 @@ export default function Footer() {
             </li>
             <li>
               <Link to="/file-vault" title="www.veritx.com">
-                www.veritx.com
+                www.veritx.co
               </Link>
             </li>
           </ul>

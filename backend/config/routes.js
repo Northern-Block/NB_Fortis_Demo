@@ -7,6 +7,8 @@ var fs = require('fs');
 const config=require('config')
 const path=config.get('directoryPath')
 var dir = path;
+// var dir="tmp"
+
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir,{recursive:true});

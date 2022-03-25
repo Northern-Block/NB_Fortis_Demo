@@ -112,25 +112,16 @@ export default function FileVault() {
   // File Detail Modal JS
   const [fileOpen, setFileOpen] = React.useState(false);
   const fileOpenClick = (item: any) => {
-    // //console.log(item, 'value')
+    console.log("--->fileOpenClick called...")
     setfileDetails(item)
     setFileOpen(true);
-    //console.log(fileDetails, 'fileDetails')
   }
   const fileClose = () => setFileOpen(false);
-
-  // React.useEffect(() => {
-  //   const socket = socketIOClient(ENDPOINT);
-  //   socket.on("FromAPI", data => {
-  //     console.log(data,'datas')
-  //     setResponse(data);
-  //   });
-  // }, []);
-
 
   // Waring Detail Modal JS
   const [warnOpen, setWarnOpen] = React.useState(false);
   const warningOpen = () => {
+    console.log("--->warningOpen called...")
     setWarnOpen(true)
     setFileOpen(false)
   };
@@ -139,22 +130,22 @@ export default function FileVault() {
   // Request Detail Modal JS
   const [requestOpen, setRequestOpen] = React.useState(false);
   const requestOpenClick = () => {
+    console.log("--->requestOpenClick called...")
     const body = {
       path: fileDetails?.filePath
     }
-    //console.log(body, 'body')
+
     axios.post('http://localhost:3005/fortis/deletefile', body as any)
       .then(res => {
-        //console.log(res.data, 'dd')
+        console.log("--->Delete file success...")
         const filteredData = rowData.filter(item => item.filePath != res.data.deletedPath as any)
         setRowData(filteredData)
         setRequestOpen(true)
         setWarnOpen(false)
       })
       .catch(err => {
-        //console.log(err)
+        console.log("--->requestOpenClick : Error...", err)
       })
-    // setRequestOpen(true);
   }
 
   // File Verify Modal JS
@@ -165,44 +156,30 @@ export default function FileVault() {
   const requestClosePopup = () => setUploadPopup(true);
 
   const [filelist, setFileList] = React.useState()
-  const handleReplace = () => {
-    setUploadOpen(true)
-  }
+  // const handleReplace = () => {
+  //   setUploadOpen(true)
+  // }
 
   const requestCloseClick = () => {
+    console.log("--->requestCloseClick called...")
     setRequestOpen(false)
     fetchFiles()
-
   }
   // Progressbar JS
   const [progress, setProgress] = React.useState(0);
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
   const fetchFiles = () => {
-
+    console.log("--->fetchFiles called...")
     axios.get('http://localhost:3005/fortis/getfile')
-
       .then(res => {
-        //console.log(res.data.data.split('#'))
+        console.log("--->fetchFiles success...")
+        console.log("--->File names: ", res.data.data.split('#'))
         setFileList(res.data.data.split('#'))
         setPath(res.data.filePath)
         const filePath = res.data.filePath
         const temp = res.data.data.split('#')
         temp.pop()
-        //console.log(temp, 'temp')
+
         const result = temp.map((item: any, index: any) => ({
           // ...item,
           fileName: item,
@@ -213,51 +190,54 @@ export default function FileVault() {
           filePath: filePath + item
         }
         ))
-        //console.log(result)
         setRows(result)
         setRowData([...result])
       })
       .catch(err => {
-        //console.log(err)
+        console.log("--->requestOpenClick : Error...", err)
       })
-
   }
-   
+
   React.useEffect(() => {
     fetchFiles()
   }, [])
-   const [socket, setSocket] = useState<any>(null);
-    React.useEffect(() => {
-      const newSocket:any = socketIOClient(`http://${window.location.hostname}:3005`);
-      console.log(newSocket,'new Socket')
-      newSocket.on('message', (data :  any)=> {
-      console.log("Recieved this from the backend: " + data);
-      });
-      return () => newSocket.close();
-    }, [setSocket]);
+
+  React.useEffect(() => {
+    const newSocket: any = socketIOClient(`http://${window.location.hostname}:3005`);
+    console.log(newSocket, 'new Socket')
+    newSocket.on('message', (status: any) => {
+      console.log("---->Status : ", status)
+      if (status) {
+       fetchFiles();
+      } 
+    });
+    return () => newSocket.disconnect();
+  }, []);
 
 
   // Drag & Drop JS
   const [fileNames, setFileNames] = React.useState([]);
   const [data, setData] = React.useState([]);
+
   const handleDrop = (acceptedFiles: any) => {
+    console.log("--->handleDrop called...", acceptedFiles)
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
   };
 
   const handleDelete = (i: any, chip: any) => {
-
-    setTags(tags.filter((tag, index) => index !== chip));
+    console.log("--->handelDelete called...")
+      setTags(tags.filter((tag, index) => index !== chip));
   };
 
   const handleAddition = (tag: any) => {
+    console.log("--->handleAddition called ...")
     setTags([...tags as any, tag] as any);
   };
 
   const handleTextChange = (e: any) => {
-    // Search Functionality
+    console.log("--->handleTextChange called ...")
     let search: any = e.target.value;
-
     if (e.target.value === "") {
       setRowData(rows);
     } else {
@@ -271,24 +251,19 @@ export default function FileVault() {
   }
 
   const handleFileUpload = () => {
+    console.log("--->handleFileUpload called ...")
     setFileVerify(true)
     const datafile = new FormData()
     datafile.append('fileupload', data[0] as any)
-    //console.log(data[0])
     datafile.append('tags', tags as any)
-
     axios.post('http://localhost:3005/fortis/addfile', datafile)
-
-
-      .then(response => {
-
-        //console.log(response.data)
+    .then(response => {
         setRequestOpen(true)
         setUploadOpen(false)
         setFileVerify(false)
       })
       .catch(err => {
-        //console.log(err)
+        console.log("--->handleFileUpload Err ...",err)
         setFileVerify(false)
       })
   }
@@ -301,27 +276,26 @@ export default function FileVault() {
     while (n--) {
       uint8Array[n] = bstr.charCodeAt(n);
     }
-    // let file = new File([uint8Array], fileName, { type: mime });
+    
     let file = new File([uint8Array], fileName);
     return file;
   };
 
   const fileVerifyOpen = () => {
+    console.log("---->fileVerifyOpen called...")
     const body = {
       path: fileDetails?.filePath
     }
-    //console.log(body)
+    
     axios.post("http://localhost:3005/fortis/downloadfile", body)
       .then(function (response) {
-        //console.log(response.data)
+        console.log("---->File downloaded ..")
         let file = convertBase64ToFile(response.data, fileDetails.fileName);
         saveAs(file, fileDetails.fileName);
         setFileOpen(false);
       })
-
       .catch(err => {
-        //console.log(err)
-
+        console.log("--->handleFileUpload Err ...",err)
       })
 
   }
@@ -497,21 +471,13 @@ export default function FileVault() {
                           >
                             {row.fileName}
                           </span>
-                          {/* <div><img src={"backend\tmp\profile.jpg"} style={{width:'25px',height:'25px'}}/></div> */}
+                         
                         </div>
                       </TableCell>
-
-
                       <TableCell>{row.owner}</TableCell>
-                      {/* <TableCell>
-                        <p className="description-message">{row.description}</p>
-                      </TableCell> */}
                       <TableCell>{row.lastModified}</TableCell>
                       <TableCell>
                         <div className="table-data has-no-cursor">
-                          {/* <em>
-                            <img src={user_icon} alt="user" />
-                          </em> */}
                           {row.lastModifiedBy}
                         </div>
                       </TableCell>

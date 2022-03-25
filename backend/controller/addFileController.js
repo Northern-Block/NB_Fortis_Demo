@@ -46,16 +46,6 @@ let message = ""
 //   }
 // }
 // .................
-const watcher = chokidar.watch(dir, {
-  ignored: /(^|[\/\\])\../, // ignore dotfiles
-  // persistent: false,
-  ignoreInitial:true
-});
-
-
-watcher.on('add', path => console.log('added',dir,path))
-  .on('change', path => console.log('changed',dir,path))
-  .on('unlink', path => console.log('removed',dir,path));
 
 
 exports.addFileUpload = async (req, res) => {
@@ -74,7 +64,7 @@ exports.addFileUpload = async (req, res) => {
       
 
     }
-
+    console.log("====>File is added from backend...")
    
     return res.status(201).json({ error: "", data });
   } catch (error) {
@@ -99,7 +89,7 @@ exports.getAllFile = async (req, res) => {
         // filePath= dir+'\\'+file+'#'+filePath
 
       });
-
+        console.log("---->Fetching all files from backend...")
       return res.status(201).json({ error: "", data: fileData, filePath: dir + '\\' });
     });
 
@@ -122,7 +112,7 @@ exports.downloadfile = async (req, res) => {
 
     const file = req.body.path
     const result = base64_encode(file)
-    // console.log(result)
+    console.log(" ====>Backend resposne of downloading a file")
     res.send(result); // Set disposition and send it.
 
   }
@@ -143,6 +133,7 @@ exports.deleteFile = async (req, res) => {
           .status(500)
           .json({ error: 'Something went wrong', message: 'File not deleted' });
       } else {
+        console.log("=====>File is deleted from backend")
         return res
           .status(200)
           .json({ error: '', message: 'File Deleted', deletedPath: req.body.path });
