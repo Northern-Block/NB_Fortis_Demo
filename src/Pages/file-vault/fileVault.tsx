@@ -286,6 +286,7 @@ export default function FileVault() {
     const body = {
       path: fileDetails?.filePath
     }
+    console.log(body,'body-----')
     
     axios.post("http://localhost:3005/fortis/downloadfile", body)
       .then(function (response) {

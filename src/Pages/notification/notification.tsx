@@ -97,6 +97,15 @@ export default function Notification() {
     }
   ])
 
+ React.useEffect(()=>{
+   
+    var element = document.getElementsByClassName("active")[0];
+    if(element){
+        element.classList.remove("active");
+    }
+   
+    
+  },[])
   const emailValidation=()=>{
     console.log(inputFields,'fi')
     console.log(inputFields,'fi')

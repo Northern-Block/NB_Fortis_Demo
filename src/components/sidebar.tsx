@@ -5,9 +5,11 @@ import veritx_logo from "../assets/image/veritx_logo.png";
 
 export default function Sidebar() {
   const [ index, setIndex ] = useState();
- 
+  // const
+//  
 
   const toggleTab = (ind:any) =>{
+    console.log(ind,'iiii')
     setIndex(ind);
    
   }
@@ -36,6 +38,7 @@ export default function Sidebar() {
             <li>
               <Link
                 to={`${process.env.PUBLIC_URL}/modify-files`}
+                // activeClassName='is-active'
                 className={index == 3 ? "active": undefined}
                 title="Modify Files"
                 onClick={()=>toggleTab(3)}

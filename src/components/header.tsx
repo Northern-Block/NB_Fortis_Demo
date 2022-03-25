@@ -1,6 +1,6 @@
 import { Popover } from "@material-ui/core";
 import { Menu, MenuItem } from "@mui/material";
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import sidebar_logo from "../assets/image/sidebar_logo.png";
@@ -11,7 +11,7 @@ export default function Header() {
   const handleMenuClick = () => {
     document.body.classList.toggle("menu-open");
   };
-
+  
   const [headerMenu, setHeaderMenu] = React.useState<null | HTMLElement>(null);
   const smallMenuOpen = Boolean(headerMenu);
  
@@ -32,6 +32,8 @@ export default function Header() {
   const settingMenuClickClose = () => {
     setHeaderSettingMenu(null);
   };
+
+ 
 
   const open = Boolean(headerSettingMenu);
   const id = open ? 'setting-menu' : undefined;
@@ -120,7 +122,10 @@ export default function Header() {
                 >
                   {/* <Link to="/file-vault">File Access</Link> */}
                   {/* <Link to="/file-vault">Scheduled Scans</Link> */}
-                  <Link to="/notification">Notifications</Link>
+                  <Link to="/notification"
+                  
+                  
+                  >Notifications</Link>
                   <Link to="/user-activity">User Activity </Link>
                  
                   
