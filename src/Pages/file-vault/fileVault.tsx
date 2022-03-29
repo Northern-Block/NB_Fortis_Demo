@@ -318,9 +318,9 @@ export default function FileVault() {
             <div className="search-left">
 
 
-              <p>Select a file to view additional details.
+              {/* <p>Select a file to view additional details.
                 <br />
-                If a file is highlighted in red, immediate attention is required.</p>
+                If a file is highlighted in red, immediate attention is required.</p> */}
               <TextField
                 fullWidth
                 label="Search File"
@@ -442,6 +442,7 @@ export default function FileVault() {
               </div>
             </div>
           </div>
+          <p className="notify-msg" > Select a file to view additional details. If a file is highlighted in red, immediate attention is required.</p>
           <div className="table-wrapper">
             <TableContainer component={Paper}>
               <Table>

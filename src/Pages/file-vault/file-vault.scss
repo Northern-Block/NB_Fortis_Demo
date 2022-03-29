@@ -2,14 +2,14 @@
 
 .main-content {
   &.file-vault {
-    padding: 210px 0 0 260px;
+    padding: 185px 0 0 260px;
 
     @include bp('xmd') {
-      padding: 210px 0 0 0;
+      padding: 180px 0 0 0;
     }
 
     @include bp('xs') {
-      padding: 310px 0 0 0;
+      padding: 255px 0 0 0;
     }
 
     .file-search {
@@ -121,6 +121,12 @@
           }
         }
       }
+    }
+    .notify-msg {
+     
+      font-weight: 400;
+      text-align: center;
+      color: $blueMain;
     }
   }
 }
