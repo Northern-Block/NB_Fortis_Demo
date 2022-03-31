@@ -36,6 +36,7 @@ import download_file from "../../assets/image/download_file.svg";
 import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
 
+import FileViewer from "react-file-viewer";
 
 import { saveAs } from "file-saver"
 import { Base64 } from 'js-base64';
@@ -104,6 +105,7 @@ export default function FileVault() {
   const [time, setTime] = useState('')
   const [path, setPath] = useState('');
   const [tags, setTags] = React.useState([]);
+  const [preview,setPreview] = useState<any>()
   //onclick file details
   const [fileDetails, setfileDetails] = useState({} as any)
   const fileUploadOpen = () => setUploadOpen(true);
@@ -208,26 +210,38 @@ export default function FileVault() {
     newSocket.on('message', (status: any) => {
       console.log("---->Status : ", status)
       if (status) {
-       fetchFiles();
-      } 
+        fetchFiles();
+      }
     });
     return () => newSocket.disconnect();
   }, []);
 
 
   // Drag & Drop JS
-  const [fileNames, setFileNames] = React.useState([]);
+  const [fileNames, setFileNames] = React.useState<any[]>([]);
   const [data, setData] = React.useState([]);
 
   const handleDrop = (acceptedFiles: any) => {
     console.log("--->handleDrop called...", acceptedFiles)
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
-  };
+
+    const reader=new FileReader()
+    reader.onload=()=>{
+      setPreview(reader.result)
+
+    };
+     const previewdata:Blob=new Blob(acceptedFiles, {type: "text/json;charset=utf-8"})
+    console.log( previewdata,'====>previewdata')
+    reader.readAsDataURL(previewdata)
+  
+    };
+   
+    
 
   const handleDelete = (i: any, chip: any) => {
     console.log("--->handelDelete called...")
-      setTags(tags.filter((tag, index) => index !== chip));
+    setTags(tags.filter((tag, index) => index !== chip));
   };
 
   const handleAddition = (tag: any) => {
@@ -257,13 +271,13 @@ export default function FileVault() {
     datafile.append('fileupload', data[0] as any)
     datafile.append('tags', tags as any)
     axios.post('http://localhost:3005/fortis/addfile', datafile)
-    .then(response => {
+      .then(response => {
         setRequestOpen(true)
         setUploadOpen(false)
         setFileVerify(false)
       })
       .catch(err => {
-        console.log("--->handleFileUpload Err ...",err)
+        console.log("--->handleFileUpload Err ...", err)
         setFileVerify(false)
       })
   }
@@ -276,7 +290,7 @@ export default function FileVault() {
     while (n--) {
       uint8Array[n] = bstr.charCodeAt(n);
     }
-    
+
     let file = new File([uint8Array], fileName);
     return file;
   };
@@ -286,8 +300,8 @@ export default function FileVault() {
     const body = {
       path: fileDetails?.filePath
     }
-    console.log(body,'body-----')
-    
+    console.log(body, 'body-----')
+
     axios.post("http://localhost:3005/fortis/downloadfile", body)
       .then(function (response) {
         console.log("---->File downloaded ..")
@@ -296,11 +310,15 @@ export default function FileVault() {
         setFileOpen(false);
       })
       .catch(err => {
-        console.log("--->handleFileUpload Err ...",err)
+        console.log("--->handleFileUpload Err ...", err)
       })
 
   }
+  
+
   const handleChange = (e: any) => {
+
+    
     //console.log(e.target.files[0])
   }
   return (
@@ -369,7 +387,8 @@ export default function FileVault() {
                     <div className="file-drop-outer" onChange={handleChange}>
                       <h2 className="h2">Drag or Add Files</h2>
 
-                      <Dropzone onDrop={handleDrop} >
+                      <Dropzone onDrop={handleDrop}   
+   >
                         {({ getRootProps, getInputProps }) => (
                           <div {...getRootProps({ className: "file-drop-box" })}>
                             <h2>Add Files</h2>
@@ -390,13 +409,8 @@ export default function FileVault() {
                       </Dropzone>
                     </div> : <div className="preview-box-outer">
                       <div className="preview-box-inner" >
-                        <p>
-                          Lorem ipsum dolor sit amet consectetur, adipisicing
-                          elit. Soluta est praesentium odit, ipsam deserunt
-                          aliquid voluptatem inventore! Ducimus fuga beatae quae,
-                          eum temporibus quisquam. Dicta voluptate ipsam fugiat
-                          dolor expedita.
-                        </p>
+                     
+                       <img src={preview} alt="File Preview"   /> 
                         <div className="file-name">
 
                           {fileNames.map((fileName) => (
@@ -473,7 +487,7 @@ export default function FileVault() {
                           >
                             {row.fileName}
                           </span>
-                         
+
                         </div>
                       </TableCell>
                       <TableCell>{row.owner}</TableCell>
@@ -711,3 +725,27 @@ export default function FileVault() {
     </>
   );
 }
+
+
+const styles = {
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: 50,
+  },
+  preview: {
+    marginTop: 50,
+    display: "flex",
+    flexDirection: "column",
+  },
+  image: { maxWidth: "100%", maxHeight: 320 },
+  delete: {
+    cursor: "pointer",
+    padding: 15,
+    background: "red",
+    color: "white",
+    border: "none",
+  },
+};
