@@ -2,6 +2,14 @@ import * as React from "react";
 import axios from 'axios';
 import { useState } from "react";
 
+// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+// import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+
+
+import { thumbnailPlugin } from "@react-pdf-viewer/thumbnail";
+// import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
+
+
 import Dropzone from "react-dropzone";
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
@@ -33,10 +41,17 @@ import error_icon from "../../assets/image/error-icon.svg";
 import request_check from "../../assets/image/request_check.svg";
 import loading from "../../assets/image/loading.svg";
 import download_file from "../../assets/image/download_file.svg";
-import { ClassNames } from "@emotion/react";
+// import { ClassNames } from "@emotion/react";
 import ChipInput from 'material-ui-chip-input';
-
+import { Viewer } from "@react-pdf-viewer/core";
 import FileViewer from "react-file-viewer";
+import { Worker } from "@react-pdf-viewer/core";
+// import { thumbnailPlugin } from "@react-pdf-viewer/thumbnail";
+import "@react-pdf-viewer/thumbnail/lib/styles/index.css";
+// Import the main component
+// import { LoadError, Viewer } from "@react-pdf-viewer/core";
+// Import the styles
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 import { saveAs } from "file-saver"
 import { Base64 } from 'js-base64';
@@ -105,11 +120,20 @@ export default function FileVault() {
   const [time, setTime] = useState('')
   const [path, setPath] = useState('');
   const [tags, setTags] = React.useState([]);
-  const [preview,setPreview] = useState<any>()
+  const [url, setUrl] = React.useState<any>([])
+  const [preview, setPreview] = useState<any>()
   //onclick file details
   const [fileDetails, setfileDetails] = useState({} as any)
   const fileUploadOpen = () => setUploadOpen(true);
   const fileUploadClose = () => { setUploadOpen(false); setData([]); }
+
+
+  /// testing pdf viweer
+
+  // const thumbnailPluginInstance = thumbnailPlugin();
+  // const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  // const { Thumbnails } = thumbnailPluginInstance;
+
 
   // File Detail Modal JS
   const [fileOpen, setFileOpen] = React.useState(false);
@@ -225,19 +249,19 @@ export default function FileVault() {
     console.log("--->handleDrop called...", acceptedFiles)
     setFileNames(acceptedFiles.map((file: any) => file.name) as any);
     setData(acceptedFiles);
-
-    const reader=new FileReader()
-    reader.onload=()=>{
+    setUrl(URL.createObjectURL(acceptedFiles[0]));
+    const reader = new FileReader()
+    reader.onload = () => {
       setPreview(reader.result)
 
     };
-     const previewdata:Blob=new Blob(acceptedFiles, {type: "text/json;charset=utf-8"})
-    console.log( previewdata,'====>previewdata')
+    const previewdata: Blob = new Blob(acceptedFiles, { type: "text/json;charset=utf-8" })
+    console.log(previewdata, '====>previewdata')
     reader.readAsDataURL(previewdata)
-  
-    };
-   
-    
+
+  };
+
+
 
   const handleDelete = (i: any, chip: any) => {
     console.log("--->handelDelete called...")
@@ -314,13 +338,42 @@ export default function FileVault() {
       })
 
   }
-  
+
 
   const handleChange = (e: any) => {
 
-    
+
     //console.log(e.target.files[0])
   }
+
+  function getBase64(url) {
+    return axios
+      .get(url, {
+        responseType: "arraybuffer"
+      })
+      .then((response) =>
+        Buffer.from(response.data, "binary").toString("base64")
+      );
+  }
+
+  const base64toBlob = async (url) => {
+    const data = await getBase64(url);
+    // Cut the prefix `data:application/pdf;base64` from the raw base 64
+    const base64WithoutPrefix = data.substr(
+      "data:application/pdf;base64,".length
+    );
+
+    const bytes = atob(base64WithoutPrefix);
+    let length = bytes.length;
+    let out = new Uint8Array(length);
+
+    while (length--) {
+      out[length] = bytes.charCodeAt(length);
+    }
+
+    return URL.createObjectURL(new Blob([out], { type: "application/pdf" }));
+  };
+  const thumbnailPluginInstance = thumbnailPlugin();
   return (
     <>
       {/* Header HTML Start*/}
@@ -330,6 +383,7 @@ export default function FileVault() {
       {/* Sidebar HTML Start*/}
       {/* <Sidebar /> */}
       {/* Sidebar HTML End*/}
+
       <div className="wrapper">
         <div className="main-content file-vault">
           <div className="file-search">
@@ -387,8 +441,8 @@ export default function FileVault() {
                     <div className="file-drop-outer" onChange={handleChange}>
                       <h2 className="h2">Drag or Add Files</h2>
 
-                      <Dropzone onDrop={handleDrop}   
-   >
+                      <Dropzone onDrop={handleDrop}
+                      >
                         {({ getRootProps, getInputProps }) => (
                           <div {...getRootProps({ className: "file-drop-box" })}>
                             <h2>Add Files</h2>
@@ -409,8 +463,16 @@ export default function FileVault() {
                       </Dropzone>
                     </div> : <div className="preview-box-outer">
                       <div className="preview-box-inner" >
-                     
-                       <img src={preview} alt="File Preview"   /> 
+
+                        {fileNames[0].substr(fileNames[0].lastIndexOf('.') + 1) == 'pdf' ?
+                          url &&
+                          <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js">
+
+                            <Viewer fileUrl={url} />
+                          </Worker> :
+
+                          <img src={preview} alt="File Preview" />
+                        }
                         <div className="file-name">
 
                           {fileNames.map((fileName) => (

@@ -162,12 +162,18 @@
         @include flexbox();
         @include justify-content(space-between);
         @include flex-direction(column);
-        min-height: 227px;
+        height: 285px;
+        overflow: hidden;
+        position: relative;
 
         @include bp('xs') {
             @include border-radius(4px);
         }
 
+        > img{
+            height: 100%;
+            object-fit: cover;
+        }
         p {
             text-align: left;
             padding: 25px 50px;
@@ -180,6 +186,12 @@
         .file-name {
             border-top: 1px solid $greyLight;
             padding: 20px 10px;
+            position: absolute; 
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background-color: #fff;
 
             @include bp('xs') {
                 padding: 10px;
