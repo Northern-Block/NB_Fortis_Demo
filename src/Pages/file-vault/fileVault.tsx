@@ -160,7 +160,6 @@ export default function FileVault() {
     const body = {
       path: fileDetails?.filePath
     }
-
     axios.post('http://localhost:3005/fortis/deletefile', body as any)
       .then(res => {
         console.log("--->Delete file success...")

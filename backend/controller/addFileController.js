@@ -5,67 +5,20 @@ const chokidar = require('chokidar');
 var fs = require('fs');
 const config = require('config')
 const path = config.get('directoryPath')
-
 const app = express();
 // let dir ='./tmp/vertix'
 var dir = path;
 let message = ""
 
-// exports.fileWatcher = async (req, res) => {
-//   try {
-//     const watcher = chokidar.watch(dir, {
-//       ignored: /(^|[\/\\])\../, // ignore dotfiles
-//       persistent: true,
-//       ignoreInitial: true
-//     });
-
-//     let status = false
-//     // watcher
-//     //   .on('all',  path => {
-//     //    status=true
-//     //   }  )
-//     //   if(status===true){
-//     //     return res.status(201).json({ path:path,message:'Added' })
-//     //   }
-//     //   else{
-//     //     return res.status(201).json({ path:path,message:'Not Changed' })
-//     //   }
-//     watcher
-//       .on('add', path => { return res.status(201).json({ path: path, message: 'Added' }) })
-//       .on('change', path => { return res.status(201).json({ path: path, message: 'Changed' }) })
-
-//       .on('unlink', path => { return res.status(201).json({ path: path, message: 'Removed' }) })
-
-
-//   }
-//   catch (error) {
-//     // console.log(error);
-//     return res
-//       .status(500)
-//       .json({ error: "Something went wrong", message: error.message });
-//   }
-// }
-// .................
-
-
 exports.addFileUpload = async (req, res) => {
   try {
-    // if (!fs.existsSync(dir)){
-    //     fs.mkdirSync(dir,{recursive:true});
-    // }
-
     const data = req.body;
-
     if (req.file) {
-
       data.fileupload = req.file.filename;
       data.tags = req.body.tags;
       data.path = req.file.path
-      
-
     }
     console.log("====>File is added from backend...")
-   
     return res.status(201).json({ error: "", data });
   } catch (error) {
     // console.log(error);
@@ -79,18 +32,12 @@ exports.getAllFile = async (req, res) => {
   try {
 
     let fileData = ''
-    // let filePath=''
     fs.readdir(dir, (err, files) => {
-
       files && files.length > 0 && files.forEach(file => {
-
-      
         fileData = file + '#' + fileData
-        // filePath= dir+'\\'+file+'#'+filePath
-
       });
-        console.log("---->Fetching all files from backend...")
-      return res.status(201).json({ error: "", data: fileData, filePath: dir + '\\' });
+      console.log("---->Fetching all files from backend...", dir + '\\')
+      return res.status(201).json({ error: "", data: fileData, filePath: dir + '//' });
     });
 
   } catch (error) {
@@ -116,7 +63,6 @@ exports.downloadfile = async (req, res) => {
     res.send(result); // Set disposition and send it.
 
   }
-
   catch (error) {
     return res
       .status(500)
@@ -126,7 +72,6 @@ exports.downloadfile = async (req, res) => {
 
 exports.deleteFile = async (req, res) => {
   try {
-
     let resultHandler = function (err) {
       if (err) {
         return res
@@ -139,16 +84,11 @@ exports.deleteFile = async (req, res) => {
           .json({ error: '', message: 'File Deleted', deletedPath: req.body.path });
       }
     }
-
     fs.unlink(req.body.path, resultHandler);
-
   } catch (error) {
     return res
       .status(500)
       .json({ error: 'Something went wrong', message: error.message });
   }
 };
-
-
-exports.path = `${__dirname}`;
 exports.path = `${__dirname}`;
